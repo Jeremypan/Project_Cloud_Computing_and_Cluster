@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-. ./openrc.sh; ansible-playbook -i hosts --ask-become-pass all-in-one.yaml
+. ./openrc.sh; ansible-playbook -i hosts --ask-become-pass run_nectar.yaml

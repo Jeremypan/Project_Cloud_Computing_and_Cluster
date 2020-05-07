@@ -18,7 +18,7 @@
 - name: Create security group rules
   os_security_group_rule:
     security_group: '{{ item.name }}'
-    protocol: '{{ item.rules.protocol }}'
+    protocol: '{{ item.rules[0].protocol }}'
     port_range_min: '{{ item.rules.port_range_min }}'
     port_range_max: '{{ item.rules.port_range_max }}'
     remote_ip_prefix: '{{ item.rules.remote_ip_prefix }}'

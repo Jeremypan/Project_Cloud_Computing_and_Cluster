@@ -1,38 +1,5 @@
-#mount volumes
 ---
-- name: Make file system
-  become: yes
-  filesystem:
-    fstype: xfs
-    dev: "{{ item.volumes.device }}"
-  when: item.device is defined
-  loop: "{{ instances }}"
-
-- name: Check folders
-  become: yes
-  stat:
-    path: "{{ item.volumes.mountpoint }}"
-  register: directory_stats
-  loop: "{{ instances }}"
-
-- debug:
-    msg: "| directory_stats ==> {{ directory_stats }}"
-
-- name: Create directory
-  become: yes
-  file:
-    path: "{{ item.volumes.mountpoint }}"
-    recurse: yes
-    state: directory
-  when: item.stat.exists == false
-  loop: "{{ directory_stats.results }}"
-
-- name: Mount device
-  become: yes
-  mount:
-    path: "{{ item.volumes.mountpoint }}"
-    src: "{{ item.volumes.device }}"
-    fstype: xfs
-    state: mounted
-  when: item.device is defined
-  loop: "{{ instances }}"
+- include_tasks: subtask.yaml
+  loop: '{{ instances }}'
+  loop_control:
+    loop_var: instance_item
