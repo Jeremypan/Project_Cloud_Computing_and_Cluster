@@ -1,0 +1,1 @@
+echo "deb https://apache.bintray.com/couchdb-deb {bionic} main" \ | sudo tee -a /etc/apt sources.list

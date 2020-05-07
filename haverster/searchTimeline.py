@@ -6,13 +6,13 @@ from tweepy import OAuthHandler
 
 # from auth import consumer_key,consumer_secret,access_token,access_token_secret
 
-# from timelineThread import timelineThread
+from timelineThread import timelineThread
 
 import json
 
-# import couchdb
+import couchdb
 
-# from dblogin import user, password
+from dblogin import user, password
 
 import sys
 consumer_key="x4YMdEwhO5T7gzp8wyoPOSRzA"

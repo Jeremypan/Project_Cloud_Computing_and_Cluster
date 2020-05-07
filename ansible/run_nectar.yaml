@@ -6,4 +6,7 @@
 
   roles:
     - role: common
-    
+    - role: images
+    - role: volumes
+    - role: security-group
+    - role: create_instance
