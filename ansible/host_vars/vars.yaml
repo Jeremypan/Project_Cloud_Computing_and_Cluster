@@ -1,0 +1,6 @@
+#####################
+#### Common Vars ####
+#####################
+availability_zone: melbourne-qh2-uom
+instance_network: qh2-uom-internal
+instance_group_key: GroupKey
