@@ -17,3 +17,5 @@
   gather_facts: true
   roles:
     - role: server_environments
+    - role: docker_installment
+    

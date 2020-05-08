@@ -89,3 +89,8 @@ volumes:
   #       vol_size: 10
   #       device: /dev/vdb
   #       mountpoint: /data
+
+
+
+#Key
+private_key_path: ./GroupKey.txt

@@ -14,11 +14,15 @@
 #   pip:
 #     name: ['pip']
 #     state: latest
-# # pip install --upgrade pip
 
+
+
+# pip install openstacksdk
 - name: Install openstacksdk
   become: yes
   pip:
     name: ['openstacksdk']
     state: latest
-# pip install openstacksdk
+
+
+
