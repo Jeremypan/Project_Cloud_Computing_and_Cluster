@@ -1,0 +1,46 @@
+---
+# - name: Add proxy in /etc/environment
+#   become: yes
+#   blockinfile:
+#     path: /etc/environment
+#     block:
+#       HTTP_PROXY={{ proxy_address }}
+#       https_proxy={{ proxy_address }}
+#       http_PROXY={{ proxy_address }}
+#       HTTPS_PROXY={{ proxy_address }}
+#       no_proxy= {{ no_proxy_address }}
+
+- name: Add proxy in /etc/environment
+  become: yes
+  lineinfile:
+    line: "http_proxy=\"{{ proxy_address }}\"\nhttps_proxy=\"{{ proxy_address }}\"\nftp_proxy=\"{{ proxy_address }}\"\nno_proxy=\"localhost,127.0.0.1,127.0.1.1,0.0.0.0,ubuntu,Server1\"\n"
+    dest: /etc/environment
+
+- name: export proxy to enviroment
+  become: yes
+  shell: echo 'proxy loading'
+  environment:
+    http_proxy: "{{ proxy_address }}"
+    https_proxy: "{{ proxy_address }}"
+    ftp_proxy: "{{ proxy_address }}"
+    no_proxy: "localhost,127.0.0.1,127.0.1.1,0.0.0.0,ubuntu,Server1"
+
+- name: Gather facts of remote host
+  setup:
+    gather_subset: all
+
+- name: Install dependencies
+  tags: always
+  become: yes
+  apt:
+    name: ['apt-transport-https', 'build-essential', 'ca-certificates', 'curl', 'git', 'python3-dev', 'python3-pip', 'python3-setuptools', 'software-properties-common', 'unzip', 'vim']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+# - name: Update pip
+#   tags: always
+#   become: yes
+#   pip:
+#     name: ['pip']
+#     state: latest

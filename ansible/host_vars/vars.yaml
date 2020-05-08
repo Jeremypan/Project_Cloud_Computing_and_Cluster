@@ -54,31 +54,32 @@ security_groups:
 #####################
 instances:
   - name: Server1
-    security_groups: instance1-security-group
+    security_groups: server_1-security
     volume_ids: '{{ instance1_volumes|default([]) }}'
-    volumes:
-      - vol_name: volume_db1
-        vol_size: 80
-        device: /dev/vdb
-        mountpoint: /data
+    volumes: ['db1']
 
   - name: Server2
-    security_groups: instance2-security-group
+    security_groups: server_2-security
     volume_ids: '{{ instance2_volumes|default([]) }}'
-    volumes:
-      - vol_name: volume_db2
-        vol_size: 80
-        device: /dev/vdb
-        mountpoint: /data
-        
+    volumes: ['db2']
+
   - name: Server3
-    security_groups: instance3-security-group
+    security_groups: server_3-security
     volume_ids: '{{ instance3_volumes|default([]) }}'
-    volumes:
-      - vol_name: volume_db3
-        vol_size: 80
-        device: /dev/vdb
-        mountpoint: /data
+    volumes: ['db3']
+
+#####################
+## volumes       ##
+#####################
+volumes:
+  - vol_name: db1
+    vol_size: 30
+  - vol_name: db2
+    vol_size: 30
+  - vol_name: db3
+    vol_size: 30
+  
+
 
   # - name: Server4
   #   security_groups: instance4-security-group

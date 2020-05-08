@@ -1,5 +1,5 @@
 ---
-- name: Create volume(s)
+- name: Create volumes
   volume_idume:
     display_name: '{{ item.vol_name }}'
     size: '{{ item.vol_size }}'
