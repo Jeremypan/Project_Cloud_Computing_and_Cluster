@@ -40,6 +40,10 @@ security_groups:
         port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
 
+  - name: server-security
+    description: "open security group for clustering"
+    
+
   # - name: server_4-security
   #   description: "security group for server_4"
   #   rules:

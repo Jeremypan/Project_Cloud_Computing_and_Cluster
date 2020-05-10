@@ -18,4 +18,5 @@
   roles:
     - role: server_environments
     - role: docker_installment
+    - role: cluster_couchdb
     

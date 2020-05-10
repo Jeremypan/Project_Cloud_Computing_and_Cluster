@@ -3,7 +3,7 @@
   tags: 'docker'
   become: yes
   apt:
-    name: ['docker', 'docker-engine', 'docker.io']
+    name: ['docker', 'docker-engine', 'docker.io','docker-compose']
     state: absent
 
 - name: Install dependencies
@@ -47,6 +47,7 @@
     name: ['docker-compose']
     version: 1.22.0
     state: present
+    
 
 - name: Check Directory if it exists
   become: yes
