@@ -240,4 +240,4 @@
 
 - name: check_configuration_result 
   debug:
-    msg: '{{ results }}'
+    msg: '{{ results.stdout }}'
