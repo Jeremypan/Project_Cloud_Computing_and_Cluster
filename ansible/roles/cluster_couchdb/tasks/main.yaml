@@ -81,17 +81,17 @@
 
 #first_time_no_need to stop and remove step
 
-- name: Stop a container
-  become: yes
-  docker_container:
-     name: couchdb3_{{ inventory_hostname }}
-     state: stopped
+# - name: Stop a container
+#   become: yes
+#   docker_container:
+#      name: couchdb3_{{ inventory_hostname }}
+#      state: stopped
 
-- name: remove a container
-  become: yes
-  docker_container:
-     name: couchdb3_{{ inventory_hostname }}
-     state: absent
+# - name: remove a container
+#   become: yes
+#   docker_container:
+#      name: couchdb3_{{ inventory_hostname }}
+#      state: absent
 
 - name: Create couchdb container
   become: yes
@@ -105,6 +105,8 @@
       COUCHDB_PASSWORD: '{{ couchdb_pass }}'
       COUCHDB_SECRET: '{{ couchdb_cookie }}'
       ERL_FLAGS: '-setcookie {{ couchdb_cookie }} -name couchdb@{{ ansible_default_ipv4.address }}'
+    volumes:
+      - /opt/couchdb/data:/opt/couchdb/data
     ports:
       - "5984:5984"
       - "9100-9200:9100-9200"
