@@ -11,10 +11,10 @@
 # the License.
 
 # Ensure that the Erlang VM listens on a known port
--name couchdb@{{ ansible_host }}
--setcookie {{ cluster_cookie }}
--kernel inet_dist_listen_min {{ cluster_communication_port_min }}
--kernel inet_dist_listen_max {{ cluster_communication_port_max }}
+-name couchdb3{{ inventory_hostname }}
+-setcookie {{ couchdb_cookie }}
+-kernel inet_dist_listen_min {{ cluster_port_min }}
+-kernel inet_dist_listen_max {{ cluster_port_max }}
 
 # Tell kernel and SASL not to log anything
 -kernel error_logger silent

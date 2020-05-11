@@ -45,7 +45,7 @@
   become: yes
   pip:
     name: ['docker-compose']
-    version: 1.22.0
+    version: 1.25.5
     state: present
     
 

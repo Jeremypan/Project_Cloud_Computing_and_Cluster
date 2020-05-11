@@ -1,5 +1,0 @@
-####host_ip_address#####
-
-{% for host in groups['db_servers'] %}
- {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}
-{% endfor %}

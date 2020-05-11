@@ -13,37 +13,50 @@ working_dicrectory: /home/ccc
 ## Security Group  ##
 #####################
 security_groups:
-  - name: server_1-security
-    description: "security group for server_1"
-    rules:
-      - name: 'Any'
-        protocol: tcp
-        port_range_min: 1
-        port_range_max: 65535
-        remote_ip_prefix: 0.0.0.0/0
+  # - name: server_1-security
+  #   description: "security group for server_1"
+  #   rules:
+  #     - name: 'Any'
+  #       protocol: tcp
+  #       port_range_min: 1
+  #       port_range_max: 65535
+  #       remote_ip_prefix: 0.0.0.0/0
         
-  - name: server_2-security
-    description: "security group for server_2"
-    rules:
-      - name: 'Any'
-        protocol: tcp
-        port_range_min: 1
-        port_range_max: 65535
-        remote_ip_prefix: 0.0.0.0/0
+  # - name: server_2-security
+  #   description: "security group for server_2"
+  #   rules:
+  #     - name: 'Any'
+  #       protocol: tcp
+  #       port_range_min: 1
+  #       port_range_max: 65535
+  #       remote_ip_prefix: 0.0.0.0/0
 
-  - name: server_3-security
-    description: "security group for server_3"
-    rules:
-      - name: 'Any'
-        protocol: tcp
-        port_range_min: 1
-        port_range_max: 65535
-        remote_ip_prefix: 0.0.0.0/0
+  # - name: server_3-security
+  #   description: "security group for server_3"
+  #   rules:
+  #     - name: 'Any'
+  #       protocol: tcp
+  #       port_range_min: 1
+  #       port_range_max: 65535
+  #       remote_ip_prefix: 0.0.0.0/0
 
-  - name: server-security
+  - name: server_security
     description: "open security group for clustering"
-    
+  
+  - name: ssh
+    description: "SSH Access"
+  
+  - name: http
+    description: "http access"
+  
+  - name: Icmp
+    description: "Icmp access"
 
+  - name: CouchDB
+    description: "openning ansible port"
+  
+  - name: Icmp
+    description: "Icmp access"
   # - name: server_4-security
   #   description: "security group for server_4"
   #   rules:
@@ -58,17 +71,17 @@ security_groups:
 #####################
 instances:
   - name: Server1
-    security_groups: server_1-security
+    security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance1_volumes|default([]) }}'
     volumes: ['db1']
 
   - name: Server2
-    security_groups: server_2-security
+    security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance2_volumes|default([]) }}'
     volumes: ['db2']
 
   - name: Server3
-    security_groups: server_3-security
+    security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance3_volumes|default([]) }}'
     volumes: ['db3']
 
@@ -98,3 +111,46 @@ volumes:
 
 #Key
 private_key_path: ./GroupKey.txt
+
+#Couchdb_rules:
+couchDB_rules:
+  - name: ansible_Port 5984
+    protocol: tcp
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_ip_prefix: 0.0.0.0/0
+  - name: ansible_Port 4369
+    protocol: tcp
+    port_range_min: 4369
+    port_range_max: 4369
+    remote_ip_prefix: 0.0.0.0/0
+  - name: ansible_Port 4369
+    protocol: tcp
+    port_range_min: 5986
+    port_range_max: 5986
+    remote_ip_prefix: 0.0.0.0/0
+  - name: ansible_Ports 9100-9200
+    protocol: tcp
+    port_range_min: 9100
+    port_range_max: 9200
+    remote_ip_prefix: 0.0.0.0/0
+
+#server-security-rules:
+server_security_rules:
+  - name: 'Open TCP'
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+  
+  - name: Open UDP
+    protocol: udp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+
+#icmp-rules
+icmp_rules:
+  - name: Open all ICMP
+    protocol: icmp
+    remote_ip_prefix: 0.0.0.0/0

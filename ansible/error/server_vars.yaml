@@ -6,7 +6,7 @@ no_proxy_address: "localhost,127.0.0.1,localaddress,172.16.0.0/12,.melbourne.rc.
 node_ips: "{{ groups['CCC_Assignment_2'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
 couchdb_user: admin
 couchdb_pass: password
-couchdb_image: ibmcom/couchdb3
+couchdb_image: ibmcom/couchdb3:3.0.0
 couchdb_node_number: 3
 couchdb_cookie: 'a192aeb9904e6590849337933b000c99'
 couchdb_uuid: 'a192aeb9904e6590849337933b001159'
