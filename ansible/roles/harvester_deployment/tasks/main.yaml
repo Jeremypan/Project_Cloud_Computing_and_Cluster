@@ -1,0 +1,42 @@
+- name: install essenstails for harvester
+  tags: always
+  become: yes
+  pip:
+    name: ['tweepy','couchdb']
+    state: latest
+
+- name: create a harvester directory
+  become: yes
+  file:
+    path: '{{ remote_directory }}'
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+
+- name: debug template
+  debug:
+    msg: '{{ item.path }}'
+  with_filetree: "../templates"
+
+
+  
+# - name: create harvester python script
+#   become: yes
+#   file:
+#     path: '{{ remote_directory }}/{{ item }}'
+#     state: touch
+#     owner: ubuntu
+#     group: ubuntu
+#   with_fileglob:
+#     - './*.py'
+
+# - name: copy files
+#   become: yes
+#   template:
+#     src: '{{ item }}'
+#     dest: '{{ remote_directory }}/{{ item }}'
+#     owner: ubuntu
+#     group: ubuntu
+#   with_fileglob:
+#     - '*.py'
+    
