@@ -203,12 +203,7 @@
 #   when: not ansible_default_ipv4.address  == master_node
 
 - name: finish cluster 1st step
-  become: yes
-  uri:
-    url: "http://{{ master_node }}:5984/"
-    method: GET
-    user: '{{ couchdb_user }}'
-    password: '{{ couchdb_pass }}'
+  command: curl -X GET http://{{couchdb_user}}:{{couchdb_pass}}@{{ master_node }}:5984/
 
 # - name: finish cluster 2nd step
 #   become: yes
