@@ -12,7 +12,7 @@
 
 # Ensure that the Erlang VM listens on a known port
 -name couchdb3_{{ inventory_hostname }}
--setcookie {{ couchdb_cookie }}
+-setcookie {{ cluster_cookie }}
 -kernel inet_dist_listen_min 9100
 -kernel inet_dist_listen_max 9200
 

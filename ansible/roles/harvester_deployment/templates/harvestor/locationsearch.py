@@ -26,7 +26,7 @@ while True:
         if "id" in jsonObj and "full_text" in jsonObj and "id_str" in jsonObj and "place" in jsonObj:
             try:
                 db[str(jsonObj["id_str"])] = jsonObj
-                print(jsonObj["place"]["full_name"])
+                # print(jsonObj["place"]["full_name"])
             except couchdb.http.ResourceConflict:
                 continue
             

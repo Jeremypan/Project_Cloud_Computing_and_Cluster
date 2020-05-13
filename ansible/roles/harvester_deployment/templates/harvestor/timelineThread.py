@@ -20,7 +20,7 @@ class timelineThread (threading.Thread):
                 try:
                     if jsonObj["place"] is not None:
                         self.db[str(jsonObj["id_str"])] = jsonObj
-                        print(jsonObj["place"]["full_name"])
+                        # print(jsonObj["place"]["full_name"])
                 except couchdb.http.ResourceConflict:
                     continue
         
