@@ -13,10 +13,10 @@
     owner: ubuntu
     group: ubuntu
 
-- name: debug template
-  debug:
-    msg: '{{ item.path }}'
-  with_filetree: "../templates/{{local_template_directory}}"
+# - name: debug template
+#   debug:
+#     msg: '{{ item.path }}'
+#   with_filetree: "../templates/{{local_template_directory}}"
 
 - name: create harvester python script
   become: yes
@@ -27,15 +27,15 @@
     group: ubuntu
   with_filetree: "../templates/{{local_template_directory}}"
 
-- name: debug auth keys
-  debug:
-    msg: '{{ auth_keys }}'
+# - name: debug auth keys
+#   debug:
+#     msg: '{{ auth_keys }}'
 
-- name: debug ip
-  debug:
-    msg: '{{ item }}'
-  loop: '{{ auth_keys }}'
-  when: inventory_hostname==item.name
+# - name: debug ip
+#   debug:
+#     msg: '{{ item }}'
+#   loop: '{{ auth_keys }}'
+#   when: inventory_hostname==item.name
   
 - name: copy auth file
   become: yes
@@ -66,9 +66,9 @@
     - locationsearch.py
   register: running_processes_id
 
-- name: check_result
-  debug:
-    msg: "{{ running_processes_id }}"
+# - name: check_result
+#   debug:
+#     msg: "{{ running_processes_id }}"
 
 - name: kill harvester_running
   become: yes
