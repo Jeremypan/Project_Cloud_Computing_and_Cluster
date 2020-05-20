@@ -18,7 +18,7 @@ def covidsentiment(doc):
 
         tweet_text = re.sub(hashtag_at,'',re.sub(http, '', doc["full_text"]))
         tweet_tb = TextBlob(tweet_text)
-        doc["sentiment"] = tweet_tb.sentiment[1]
+        doc["sentiment"] = tweet_tb.sentiment[0]
         return doc
     except :
         return None
