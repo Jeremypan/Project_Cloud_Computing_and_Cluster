@@ -1,45 +1,79 @@
 #Setting Up CouchDB Cluster
 
-#docker run couchdb:3.0.0
-- name: check_running_couchdb
+#docker run couchdb:2.3.0
+#- name: Unmount a mounted volume
+#  become: yes
+#  mount:
+#    path: "{{ mount_point }}"
+#    state: unmounted
+#
+#- name: Recursively remove directory
+#  become: yes
+#  file:
+#    path: /opt/couchdb
+#    state: absent
+#    recurse: yes
+- name: install essenstails for couchdb
+  tags: always
   become: yes
-  shell: docker container ls | grep -w "couchdb3_{{ inventory_hostname }}" | awk '{print  $1}'
-  register: Running
+  pip:
+    name: ['requests']
+    state: latest
 
-- name: pull couchdb couchdb_image
+- name: check vdb
   become: yes
-  docker_image:
-    name: '{{ couchdb_image }}'
-    source: pull
-  when: Running.stdout ==""
+  command: df -h
+  register: output
 
-################Docker Debug######################
+- name: debug
+  debug:
+    msg: ”{{ output }}“
 
-# - name: Get infos on container
-#   become: yes
-#   docker_container_info:
-#     name: couchdb3{{ ansible_default_ipv4.address }}
-#   register: container_result
-
-# - name: Does container exist?
-#   debug:
-#     msg: "The container {{ 'exists' if container_result.exists else 'does not exist' }}"
 
 - name: create a directory couchdb if it does not exist
   become: yes
-  file: 
+  file:
     path: /opt/couchdb
     state: directory
     owner: ubuntu
     group: ubuntu
 
-- name: create a data directory if it does not exist
+- name: create file system
+  become: yes
+  filesystem:
+    fstype: xfs
+    dev: "{{ device }}"
+  when:  device is defined
+
+- name: directory
+  become: yes
+  stat:
+    path: "{{ mount_point }}"
+  register: directory_stats
+
+- debug:
+    msg: "| directory_stats ==> {{ directory_stats }}"
+
+
+- name: Create directory
   become: yes
   file:
-    path: /opt/couchdb/data
+    path: "{{ mount_point }}"
+    recurse: yes
     state: directory
-    owner: ubuntu
-    group: ubuntu
+
+- name: Mount device
+  become: yes
+  mount:
+    path: "{{ mount_point }}"
+    src: "{{ device }}"
+    fstype: xfs
+    state: mounted
+  when: device is defined
+
+- name: edit_permission
+  become: yes
+  command: chmod -R 775 /opt/couchdb/
 
 - name: create a etc directory if it does not exist
   become: yes
@@ -48,93 +82,129 @@
     state: directory
     owner: ubuntu
     group: ubuntu
+    mode: '0775'
 
-# - name: create configuration file vmargs
-#   become: yes
-#   file:
-#     path: /opt/couchdb/etc/vm.args
-#     state: touch
-#     owner: ubuntu
-#     group: ubuntu
+- name: create a etc directory if it does not exist
+  become: yes
+  file:
+    path: /opt/couchdb/etc/local.d
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0775'
 
-# - name: copy docker config file to server | step 1
-#   become: yes
-#   template:
-#     src: vm.args.j2
-#     dest: '/opt/couchdb/etc/vm.args'
-#     owner: ubuntu
-#     group: ubuntu
-#     force: no
+- name: edit_permission
+  become: yes
+  file:
+    path: /opt/couchdb/
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+    recurse: yes
 
-# - name: copy docker config file to server | step 2
-#   become: yes
-#   template:
-#     src: default.ini.j2
-#     dest: '/opt/couchdb/etc/default.ini'
-#     owner: ubuntu
-#     group: ubuntu
-#     force: no
 
-# - name: copy docker config file to server | step 3
-#   become: yes
-#   template:
-#     src: docker.ini.j2
-#     dest: '/opt/couchdb/etc/docker.ini'
-#     owner: ubuntu
-#     group: ubuntu
-#     force: no
+- name: check vdb
+  become: yes
+  command: df -h
+  register: output
+
+- name: debug
+  debug:
+    msg: ”{{ output }}“
+
+
+#- name: Pause Execution to Let Container Start in first time
+#  pause:
+#    seconds: 180
+
+
+- name: check_running_couchdb
+  become: yes
+  shell: docker container ls | grep -w "couchdb2_{{ inventory_hostname }}" | awk '{print  $1}'
+  register: Running
+
+- name: pull couchdb couchdb_image
+  become: yes
+  docker_image:
+    name: '{{ couchdb_image }}'
+    source: pull
+
+################Docker Debug######################
+
+- name: copy files
+  become: yes
+  template:
+    src: "../templates/vm.args"
+    dest: '/opt/couchdb/etc/vm.args'
+    owner: ubuntu
+    group: ubuntu
+    mode: u=rwx,g=rwx,o=rwx
+
+
+- name: copy files
+  become: yes
+  template:
+    src: "../templates/docker.ini"
+    dest: '/opt/couchdb/etc/local.d/docker.ini'
+    owner: ubuntu
+    group: ubuntu
+    mode: u=rwx,g=rwx,o=rwx
+
+- name: copy files
+  become: yes
+  template:
+    src: "../templates/default.ini"
+    dest: '/opt/couchdb/etc/default.ini'
+    owner: ubuntu
+    group: ubuntu
+    mode: u=rwx,g=rwx,o=rwx
 
 # first_time_no_need to stop and remove step
 
-# - name: Stop a container
-#   become: yes
-#   docker_container:
-#      name: couchdb3_{{ inventory_hostname }}
-#      state: stopped
+#- name: Stop a container
+#  become: yes
+#  docker_container:
+#    name: couchdb2_{{ inventory_hostname }}
+#    state: stopped
+#
+#- name: remove a container
+#  become: yes
+#  docker_container:
+#    name: couchdb2_{{ inventory_hostname }}
+#    state: absent
 
-# - name: remove a container
-#   become: yes
-#   docker_container:
-#      name: couchdb3_{{ inventory_hostname }}
-#      state: absent
+- name: Get infos on container
+  become: yes
+  docker_container_info:
+    name: couchdb2_{{ inventory_hostname }}
+  register: container_result
 
-
-- name: debug_container
+- name: Does container exist?
   debug:
-    msg: '{{ Running }}'
+    msg: "The container {{ 'exists' if container_result.exists else 'does not exist' }}"
+
 
 - name: Create couchdb container
   become: yes
   docker_container:
-    name: couchdb3_{{ ansible_default_ipv4.address }}
-    image: '{{ couchdb_image }}'
     state: started
+    name: couchdb2_{{ inventory_hostname }}
+    image: '{{ couchdb_image }}'
     detach: yes
     env:
       COUCHDB_USER: '{{ couchdb_user }}'
       COUCHDB_PASSWORD: '{{ couchdb_pass }}'
       COUCHDB_SECRET: '{{ couchdb_cookie }}'
-      ERL_FLAGS: '-setcookie {{ couchdb_cookie }} -name couchdb@{{ ansible_default_ipv4.address }}'
+      ERL_FLAGS: '-setcookie {{ couchdb_cookie }} -name couchdb@{{ inventory_hostname }}'
     ports:
       - "5984:5984"
       - "9100-9200:9100-9200"
       - "4369:4369"
-    # volumes:
-    #   - /opt/couchdb/etc/vm.args:/opt/couchdb/etc/vm.args
-    #   - /opt/couchdb/etc/default.ini:/opt/couchdb/etc/default.ini
-    #   - /opt/couchdb/etc/local.d/docker.ini:/opt/couchdb/etc/local.d/docker.ini
-    healthcheck:
-      test: ['curl']
-      interval: 10s
-      retries: 3
-      start_period: 30s
-  when: Running.stdout ==""
-
-- name: test test_condition
-  debug:
-    msg: "test test test"
-  when: Running.stdout !=""
-    
+    volumes:
+      - /opt/couchdb/etc/vm.args:/opt/couchdb/vm.args:rw
+      - /opt/couchdb/etc/local.d/docker.ini:/opt/couchdb/etc/local.d/docker.ini:rw
+      - /opt/couchdb/etc/default.ini:/opt/couchdb/etc/default.ini:rw
+      - /opt/couchdb/data:/opt/couchdb/data:rw
 
 
 # # give permission to docker.sock
@@ -146,59 +216,35 @@
 #     group: ubuntu
 #     recurse: yes
 #     mode: 0775
-
-
-
-
 # Append to apply cluster configurations to each node
+
+
 - name: Appending Configurations in vm.args
   become: yes
   command: "{{ item }}"
   with_items:
     - chmod 775 /var/run/docker.sock
-    - docker exec couchdb3_{{ ansible_default_ipv4.address }} bash -c "echo \"-setcookie {{ couchdb_cookie }} -name couchdb@{{ ansible_default_ipv4.address }}\" >> /opt/couchdb/etc/vm.args"
-    - docker exec couchdb3_{{ ansible_default_ipv4.address }} bash -c "echo \"-name couchdb3_{{ ansible_default_ipv4.address }}\" >> /opt/couchdb/etc/vm.args"
-    - docker exec couchdb3_{{ ansible_default_ipv4.address }} bash -c "echo \"-kernel inet_dist_listen_min 9100\" >> /opt/couchdb/etc/vm.args"
-    - docker exec couchdb3_{{ ansible_default_ipv4.address }} bash -c "echo \"-kernel inet_dist_listen_max 9200\" >> /opt/couchdb/etc/vm.args"
-  when: Running.stdout ==""
+#    - docker exec couchdb2_{{ inventory_hostname }} bash -c "echo \"-setcookie {{ couchdb_cookie }} -name couchdb@{{ inventory_hostname }}\" >> /opt/couchdb/etc/vm.args"
+#    - docker exec couchdb2_{{ inventory_hostname }} bash -c "echo \"-name couchdb2_{{ inventory_hostname }}\" >> /opt/couchdb/etc/vm.args"
+#    - docker exec couchdb2_{{ inventory_hostname }} bash -c "echo \"-kernel inet_dist_listen_min 9100\" >> /opt/couchdb/etc/vm.args"
+#    - docker exec couchdb2_{{ inventory_hostname }} bash -c "echo \"-kernel inet_dist_listen_max 9200\" >> /opt/couchdb/etc/vm.args"
+
+#- name: Restarting Container
+#  become: yes
+#  command: docker restart couchdb2_{{ inventory_hostname }}
+
+- name: Pause Execution to Let Container Start in first time
+  pause:
+    seconds: 20
+#
+#
+#- name: Bind Clustered Interface to all IP Addresses
+#  command: "{{ item }}"
+#  with_items:
+#    - curl -X PUT "http://{{couchdb_user}}:{{couchdb_pass}}@localhost:5984/_node/_local/_config/chttpd/bind_address" -d '"0.0.0.0"'
+#    - curl -X PUT "http://{{couchdb_user}}:{{couchdb_pass}}@localhost:5984/_node/_local/_config/httpd/bind_address" -d '"0.0.0.0"'
 
 
-# - name: Restarting Container
-#   become: yes
-#   command: docker restart couchdb3_{{ ansible_default_ipv4.address }}
-    
-# - name: Pause Execution to Let Container Restart
-#   become: yes
-#   pause:
-#     seconds: 5
-
-# - name: Running Docker CouchDb Container
-#   become: yes 
-#   command: "{{ item }}"
-#   with_items:
-#     # Run commented code if volumes are available, and have been mounted
-#     - docker run -d -p 5984:5984 -p 9100-9200:9100-9200 -p 5986:5986 -p 4369:4369 -e COUCHDB_USER={{couchdb_user}} -e COUCHDB_PASSWORD={{couchdb_pass}} --name couchdb3_{{ inventory_hostname }} {{couchdb_image}}
-#     # - docker run -d -p 5984:5984 -p 9100-9200:9100-9200 -p 5986:5986 -p 4369:4369 -e COUCHDB_USER={{couchdb_user}} -e COUCHDB_PASSWORD={{couchdb_pass}} --name couchdb {{couchdb_image}}
-
-
-# - name: Bind Clustered Interface to all IP Addresses 1st
-#   uri:
-#     url: http://localhost:5984/_node/_local/_config/chttpd/
-#     method: PUT
-#     user: '{{ couchdb_user }}'
-#     password: '{{ couchdb_pass }}'
-#     body_format: json
-#     body: '{"bind_address":"0.0.0.0"}'
-
-# - name: Bind Clustered Interface to all IP Addresses 2nd
-#   uri:
-#     url: http://localhost:5984/_node/_local/_config/httpd/
-#     method: PUT
-#     # user: '{{ couchdb_user }}'
-#     # password: '{{ couchdb_pass }}'
-#     body_format: json
-#     body: '{"bind_address":"0.0.0.0"}'
-    
 - set_fact:
     ip_address_list: '{{ node_ips.split(",") }}'
     cacheable: yes
@@ -214,125 +260,128 @@
 - name: test_condition
   debug:
     msg: 'worker_ node: {{ inventory_hostname }}'
-  when: not ansible_default_ipv4.address  == master_node
+  when: not inventory_hostname  == master_node
 
 - name: Cluster Setup Part 1
   become: yes
   command: curl -XPOST "http://{{couchdb_user}}:{{couchdb_pass}}@{{master_node}}:5984/_cluster_setup" --header "Content-Type:application/json" --data "{\"action\":\"enable_cluster\", \"bind_address\":\"0.0.0.0\", \"username\":\"{{couchdb_user}}\", \"password\":\"{{couchdb_pass}}\", \"port\":\"5984\", \"node_count\":\"3\", \"remote_node\":\"{{ inventory_hostname }}\", \"remote_current_user\":\"{{couchdb_user}}\", \"remote_current_password\":\"{{couchdb_pass}}\"}"
-  when: not ansible_default_ipv4.address  == master_node and Running.stdout ==""
+  when: not inventory_hostname   == master_node
   register: cluster_result
 
 - name: cluster_debug
   debug:
     msg: "{{ cluster_result }}"
-  when: Running.stdout ==""
+
 
 - name: Cluster Setup Part 2
   become: yes 
   command: curl -XPOST "http://{{couchdb_user}}:{{couchdb_pass}}@{{master_node}}:5984/_cluster_setup" --header "Content-Type:application/json" --data "{\"action\":\"add_node\", \"host\":\"{{ inventory_hostname }}\", \"port\":\"5984\", \"username\":\"{{couchdb_user}}\", \"password\":\"{{couchdb_pass}}\"}"
-  when: not ansible_default_ipv4.address  == master_node and Running.stdout ==""
+  when: not inventory_hostname  == master_node
   register: cluster_result
 
 - name: cluster_debug
   debug:
     msg: "{{ cluster_result }}"
-  when: Running.stdout ==""
 
-# - name: enable the Cluster
-#   become: yes
-#   uri:
-#     url: "http://{{ master_node }}:5984/_cluster_setup"
-#     method: POST
-#     user: '{{ couchdb_user }}'
-#     password: '{{ couchdb_pass }}'
-#     status_code: 201
-#     headers:
-#       Content-Type: "application/json"
-#     body_format: json
-#     body: '{ "action": "enable_cluster", "bind_address": "0.0.0.0", "username": {{ couchdb_user }}, "password": {{ couchdb_pass }}, "port": "5984", "remote_node": {{ ansible_default_ipv4.address }}, "node_count": {{ couchdb_node_number }}, "remote_current_user": {{ couchdb_user }}, "remote_current_password": {{ couchdb_pass }} }'
-#   when: not ansible_default_ipv4.address  == master_node
+#   when: not inventory_hostname  == master_node
 
-# - name: add nodes to the cluster
-#   become: yes
-#   uri:
-#     url: "http://{{ master_node }}:5984/_cluster_setup"
-#     method: POST
-#     user: '{{ couchdb_user }}'
-#     password: '{{ couchdb_pass }}'
-#     status_code: 201, 409
-#     headers:
-#       Content-Type: "application/json"
-#     force_basic_auth: yes
-#     body_format: json
-#     body: '{"action":"add node", "username" : {{ couchdb_user }}, "password" : {{ couchdb_pass }}, "host": {{ inventory_hostname }}, "port": "5984" }'
-#   when: not ansible_default_ipv4.address  == master_node
-
-- name: finish cluster 1st step
-  command: curl -X GET http://{{couchdb_user}}:{{couchdb_pass}}@{{ master_node }}:5984/
-  when: Running.stdout ==""
-
-# - name: finish cluster 2nd step
-#   become: yes
-#   uri:
-#     url: "http://{{ master_node }}:5984/_cluster_setup"
-#     method: POST
-#     user: '{{ couchdb_user }}'
-#     password: '{{ couchdb_pass }}'
-#     status_code: 201
-#     headers:
-#       Content-Type: "application/json"
-#     body_format: json
-#     body: '{"action": "finish_cluster"}'
+#- name: finish cluster 1st step
+#  command: curl -X GET http://{{couchdb_user}}:{{couchdb_pass}}@{{ master_node }}:5984/
 
 
 # Let Master Node know that the nodes have been added
 - name: Finish Cluster 2nd step
   command: curl -XPOST "http://{{couchdb_user}}:{{couchdb_pass}}@{{master_node}}:5984/_cluster_setup" \--header "Content-Type:application/json" --data "{\"action\":\"finish_cluster\"}"
-  when: Running.stdout ==""
+
 
 
 - name: Check whether the cluster configuration is correct
   command: curl -X GET "http://{{couchdb_user}}:{{couchdb_pass}}@{{master_node}}:5984/_membership"
   register: results
 
-
+# Back up configuration
 - name: check_configuration_result 
   debug:
     msg: '{{ results.stdout }}'
 
 - name: docker copy config to host 1st
   become: yes
-  command: docker ps  -aqf "name=couchdb3_{{ inventory_hostname }}"
+  command: docker ps  -aqf "name=couchdb2_{{ inventory_hostname }}"
   register: container_results
 
+- name: turn on maintenance mode
+  command: curl -X PUT "{{couchdb_user}}:{{couchdb_pass}}@{{ master_node }}:5984/_node/couchdb@{{ master_node }}/_config/couchdb/maintenance_mode" -d '"true"' --header "Content-Type:application/json"
+  when: inventory_hostname == master_node
+  register: std_output
 
-- name: docker copy config to host 2nd
+- debug:
+    msg: '{{ std_output }}'
+  when: inventory_hostname == master_node
+
+- name: copy python config file
   become: yes
-  command: "{{ item }}"
-  with_items:
-    docker cp {{ container_results.stdout }}:/opt/couchdb/etc /opt/couchdb/
+  template:
+    src: "../templates/map_shards_python.py"
+    dest: '/home/ubuntu/map_shards_python.py'
+    owner: ubuntu
+    group: ubuntu
+    mode: u=rwx,g=rwx,o=rwx
+    force: yes
+  register: std_output
+  when: inventory_hostname==master_node
 
-- name: edit_permission
+- name: run map_shards_python
   become: yes
-  command: chmod -R 775 /opt/couchdb/etc/
+  command: python3 map_shards_python.py
+  register: std_o
+  when: inventory_hostname == master_node
+
+- debug:
+    msg: "{{ std_o.stdout }}"
+  when: inventory_hostname == master_node
+
+- debug:
+    msg: '{{ std_output }}'
+  when: inventory_hostname == master_node
+
+- name: turn off maintenance mode
+  command: curl -X PUT "{{couchdb_user}}:{{couchdb_pass}}@{{ master_node }}:5984/_node/couchdb@{{ master_node }}/_config/couchdb/maintenance_mode" -d '"false"' -H "Content-Type:application/json"
+  when: inventory_hostname  == master_node
+  register: std_output
+
+- debug:
+    msg: '{{ std_output }}'
 
 
-- name: docker copy config to host 3rd
+- name: check vdb
   become: yes
-  command: "{{ item }}"
-  with_items:
-    docker cp {{ container_results.stdout }}:/opt/couchdb/data /opt/couchdb/
+  command: df -h
+  register: output
 
-- name: edit_permission
-  become: yes
-  command: chmod -R 775 /opt/couchdb/data
+- name: debug
+  debug:
+    msg: ”{{ output }}“
 
 
-# - name: Check whether the cluster configuration is correct
-#   uri:
-#     url: "http://{{ inventory_hostname }}:5984/_membership"
-#     method: GET
-#     user: '{{ couchdb_user }}'
-#     password: '{{ couchdb_pass }}'
-#   register: results
+#
+#- name: docker copy config to host 2nd
+#  become: yes
+#  command: "{{ item }}"
+#  with_items:
+#    docker cp {{ container_results.stdout }}:/opt/couchdb/ /opt/
+#
+#- name: edit_permission
+#  become: yes
+#  command: chmod -R 775 /opt/couchdb/etc/
+#
+#- name: docker copy config to host 3rd
+#  become: yes
+#  command: "{{ item }}"
+#  with_items:
+#    docker cp {{ container_results.stdout }}:/opt/couchdb/data /opt/couchdb/
+#
+#- name: edit_permission
+#  become: yes
+#  command: chmod -R 775 /opt/couchdb/data/
+
 

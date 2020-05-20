@@ -8,13 +8,22 @@
     availability_zone: '{{ availability_zone }}'
     security_groups: '{{ item.security_groups }}'
     network: '{{ instance_network }}'
-    volumes: "{{ item.volume_ids }}"
-    auto_floating_ip: yes
+    volumes: "{{ item.volumes }}"
+    reuse_ips: yes
+    auto_ip: yes
     wait: yes
     timeout: 600
     state: present
   loop: '{{ instances }}'
   register: os_instance
+
+- name: os server volume
+  os_server_volume:
+    state: present
+    server: '{{ item.instance }}'
+    volume: '{{ item.vol_name }}'
+  loop: "{{ volumes }}"
+
 
 - debug:
     msg: "Instance {{ item.openstack.name }} has been created. IP address is {{ item.openstack.public_v4 }}"

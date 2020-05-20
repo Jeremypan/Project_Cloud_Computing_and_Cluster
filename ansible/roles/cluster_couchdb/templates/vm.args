@@ -11,8 +11,10 @@
 # the License.
 
 # Ensure that the Erlang VM listens on a known port
+-name couchdb@{{ inventory_hostname }}
+-setcookie 'ccc'
 -kernel inet_dist_listen_min 9100
--kernel inet_dist_listen_max 9100
+-kernel inet_dist_listen_max 9200
 
 # Tell kernel and SASL not to log anything
 -kernel error_logger silent
@@ -26,7 +28,3 @@
 
 # Comment this line out to enable the interactive Erlang shell on startup
 +Bd -noinput
--setcookie a192aeb9904e6590849337933b000c99 -name couchdb@172.26.131.235
--name couchdb3_172.26.131.235
--kernel inet_dist_listen_min 9100
--kernel inet_dist_listen_max 9200

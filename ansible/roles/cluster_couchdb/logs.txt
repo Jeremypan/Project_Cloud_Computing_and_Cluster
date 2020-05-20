@@ -1,0 +1,179 @@
+
+ubuntu@server1:/data$ sudo docker container logs couchdb3_172.26.133.161
+[info] 2020-05-18T03:28:28.107693Z nonode@nohost <0.11.0> -------- Application couch_log started on node nonode@nohost
+[info] 2020-05-18T03:28:28.148641Z nonode@nohost <0.11.0> -------- Application folsom started on node nonode@nohost
+[info] 2020-05-18T03:28:28.216703Z nonode@nohost <0.11.0> -------- Application couch_stats started on node nonode@nohost
+[info] 2020-05-18T03:28:28.217004Z nonode@nohost <0.11.0> -------- Application khash started on node nonode@nohost
+[info] 2020-05-18T03:28:28.226803Z nonode@nohost <0.11.0> -------- Application couch_event started on node nonode@nohost
+[info] 2020-05-18T03:28:28.226993Z nonode@nohost <0.11.0> -------- Application hyper started on node nonode@nohost
+[info] 2020-05-18T03:28:28.236278Z nonode@nohost <0.11.0> -------- Application ibrowse started on node nonode@nohost
+[info] 2020-05-18T03:28:28.244157Z nonode@nohost <0.11.0> -------- Application ioq started on node nonode@nohost
+[info] 2020-05-18T03:28:28.244328Z nonode@nohost <0.11.0> -------- Application mochiweb started on node nonode@nohost
+[info] 2020-05-18T03:28:28.250074Z nonode@nohost <0.215.0> -------- Preflight check: Asserting Admin Account
+
+[info] 2020-05-18T03:28:28.257787Z nonode@nohost <0.215.0> -------- Apache CouchDB 3.1.0 is starting.
+
+[info] 2020-05-18T03:28:28.257927Z nonode@nohost <0.216.0> -------- Starting couch_sup
+[info] 2020-05-18T03:28:28.460173Z nonode@nohost <0.215.0> -------- Apache CouchDB has started. Time to relax.
+
+[info] 2020-05-18T03:28:28.464603Z nonode@nohost <0.11.0> -------- Application couch started on node nonode@nohost
+[info] 2020-05-18T03:28:28.464808Z nonode@nohost <0.11.0> -------- Application ets_lru started on node nonode@nohost
+[notice] 2020-05-18T03:28:28.498152Z nonode@nohost <0.249.0> -------- rexi_server : started servers
+[notice] 2020-05-18T03:28:28.501132Z nonode@nohost <0.253.0> -------- rexi_buffer : started servers
+[info] 2020-05-18T03:28:28.501369Z nonode@nohost <0.11.0> -------- Application rexi started on node nonode@nohost
+[warning] 2020-05-18T03:28:28.532098Z nonode@nohost <0.261.0> -------- creating missing database: _nodes
+[info] 2020-05-18T03:28:28.532182Z nonode@nohost <0.262.0> -------- open_result error {not_found,no_db_file} for _nodes
+[warning] 2020-05-18T03:28:28.662804Z nonode@nohost <0.277.0> -------- creating missing database: _dbs
+[warning] 2020-05-18T03:28:28.662863Z nonode@nohost <0.276.0> -------- creating missing database: _dbs
+[info] 2020-05-18T03:28:28.662915Z nonode@nohost <0.279.0> -------- open_result error {not_found,no_db_file} for _dbs
+[notice] 2020-05-18T03:28:28.694330Z nonode@nohost <0.291.0> -------- mem3_reshard_dbdoc start init()
+[notice] 2020-05-18T03:28:28.701473Z nonode@nohost <0.293.0> -------- mem3_reshard start init()
+[notice] 2020-05-18T03:28:28.701573Z nonode@nohost <0.294.0> -------- mem3_reshard db monitor <0.294.0> starting
+[notice] 2020-05-18T03:28:28.706513Z nonode@nohost <0.293.0> -------- mem3_reshard starting reloading jobs
+[notice] 2020-05-18T03:28:28.706582Z nonode@nohost <0.293.0> -------- mem3_reshard finished reloading jobs
+[info] 2020-05-18T03:28:28.707703Z nonode@nohost <0.11.0> -------- Application mem3 started on node nonode@nohost
+[info] 2020-05-18T03:28:28.707869Z nonode@nohost <0.11.0> -------- Application fabric started on node nonode@nohost
+[info] 2020-05-18T03:28:28.760597Z nonode@nohost <0.11.0> -------- Application chttpd started on node nonode@nohost
+[info] 2020-05-18T03:28:28.774166Z nonode@nohost <0.11.0> -------- Application couch_index started on node nonode@nohost
+[info] 2020-05-18T03:28:28.774258Z nonode@nohost <0.11.0> -------- Application couch_mrview started on node nonode@nohost
+[info] 2020-05-18T03:28:28.774348Z nonode@nohost <0.11.0> -------- Application couch_plugins started on node nonode@nohost
+[notice] 2020-05-18T03:28:28.777470Z nonode@nohost <0.323.0> -------- chttpd_auth_cache changes listener died because the _users database does not exist. Create the database to silence this notice.
+[error] 2020-05-18T03:28:28.777585Z nonode@nohost emulator -------- Error in process <0.324.0> with exit value:
+{database_does_not_exist,[{mem3_shards,load_shards_from_db,"_users",[{file,"src/mem3_shards.erl"},{line,399}]},{mem3_shards,load_shards_from_disk,1,[{file,"src/mem3_shards.erl"},{line,374}]},{mem3_shards,load_shards_from_disk,2,[{file,"src/mem3_shards.erl"},{line,403}]},{mem3_shards,for_docid,3,[{file,"src/mem3_shards.erl"},{line,96}]},{fabric_doc_open,go,3,[{file,"src/fabric_doc_open.erl"},{line,39}]},{chttpd_auth_cache,ensure_auth_ddoc_exists,2,[{file,"src/chttpd_auth_cache.erl"},{line,198}]},{chttpd_auth_cache,listen_for_changes,1,[{file,"src/chttpd_auth_cache.erl"},{line,145}]}]}
+
+[info] 2020-05-18T03:28:28.864737Z nonode@nohost <0.11.0> -------- Application couch_replicator started on node nonode@nohost
+[info] 2020-05-18T03:28:28.880155Z nonode@nohost <0.11.0> -------- Application couch_peruser started on node nonode@nohost
+[info] 2020-05-18T03:28:28.946082Z nonode@nohost <0.11.0> -------- Application ddoc_cache started on node nonode@nohost
+[info] 2020-05-18T03:28:28.980822Z nonode@nohost <0.11.0> -------- Application dreyfus started on node nonode@nohost
+[info] 2020-05-18T03:28:29.014734Z nonode@nohost <0.11.0> -------- Application global_changes started on node nonode@nohost
+[info] 2020-05-18T03:28:29.015020Z nonode@nohost <0.11.0> -------- Application jiffy started on node nonode@nohost
+[info] 2020-05-18T03:28:29.051461Z nonode@nohost <0.11.0> -------- Application jwtf started on node nonode@nohost
+[info] 2020-05-18T03:28:29.065323Z nonode@nohost <0.11.0> -------- Application ken started on node nonode@nohost
+[info] 2020-05-18T03:28:29.083117Z nonode@nohost <0.11.0> -------- Application mango started on node nonode@nohost
+[info] 2020-05-18T03:28:29.096571Z nonode@nohost <0.11.0> -------- Application setup started on node nonode@nohost
+[info] 2020-05-18T03:28:29.136794Z nonode@nohost <0.11.0> -------- Application smoosh started on node nonode@nohost
+[info] 2020-05-18T03:28:29.139486Z nonode@nohost <0.11.0> -------- Application snappy started on node nonode@nohost
+[info] 2020-05-18T03:28:29.139759Z nonode@nohost <0.11.0> -------- Application recon started on node nonode@nohost
+2020-05-18 03:28:30,208 clouseau.main [INFO] Clouseau running as clouseau@127.0.0.1
+[notice] 2020-05-18T03:28:31.331441Z nonode@nohost <0.430.0> c413a4135c localhost:5984 172.17.0.1 admin PUT /harvester/1262223595998081024 404 ok 93
+[notice] 2020-05-18T03:28:32.434611Z nonode@nohost <0.432.0> 46c4dca151 Setup: [{<<"action">>,<<"enable_cluster">>},{<<"bind_address">>,<<"0.0.0.0">>},{<<"username">>,<<"admin">>},{<<"password">>,<<"password">>},{<<"port">>,<<"5984">>},{<<"node_count">>,<<"3">>},{<<"remote_node">>,<<"172.26.131.60">>},{<<"remote_current_user">>,<<"admin">>},{<<"remote_current_password">>,<<"password">>}]
+
+[notice] 2020-05-18T03:28:32.465345Z nonode@nohost <0.432.0> 46c4dca151 172.26.133.161:5984 128.250.4.104 admin POST /_cluster_setup 201 ok 39
+[notice] 2020-05-18T03:28:32.466705Z nonode@nohost <0.433.0> e05aa7e984 Setup: [{<<"action">>,<<"enable_cluster">>},{<<"bind_address">>,<<"0.0.0.0">>},{<<"username">>,<<"admin">>},{<<"password">>,<<"password">>},{<<"port">>,<<"5984">>},{<<"node_count">>,<<"3">>},{<<"remote_node">>,<<"172.26.130.78">>},{<<"remote_current_user">>,<<"admin">>},{<<"remote_current_password">>,<<"password">>}]
+
+[notice] 2020-05-18T03:28:32.536014Z nonode@nohost <0.433.0> e05aa7e984 172.26.133.161:5984 128.250.4.110 admin POST /_cluster_setup 201 ok 70
+[notice] 2020-05-18T03:28:32.620257Z nonode@nohost <0.434.0> 726a76c3cd localhost:5984 172.17.0.1 admin PUT /harvester/1262223602507583488 404 ok 1
+[notice] 2020-05-18T03:28:32.910677Z nonode@nohost <0.446.0> 1a6dba71ee localhost:5984 172.17.0.1 admin PUT /harvester/1262223602528645122 404 ok 1
+[notice] 2020-05-18T03:28:33.118984Z nonode@nohost <0.448.0> 2e381fc4c2 Setup: [{<<"action">>,<<"add_node">>},{<<"host">>,<<"172.26.131.60">>},{<<"port">>,<<"5984">>},{<<"username">>,<<"admin">>},{<<"password">>,<<"password">>}]
+
+[notice] 2020-05-18T03:28:33.119055Z nonode@nohost <0.448.0> 2e381fc4c2 add_node: [{<<"action">>,<<"add_node">>},{<<"host">>,<<"172.26.131.60">>},{<<"port">>,<<"5984">>},{<<"username">>,<<"admin">>},{<<"password">>,<<"password">>}]
+
+[notice] 2020-05-18T03:28:33.146161Z nonode@nohost <0.448.0> 2e381fc4c2 172.26.133.161:5984 128.250.4.104 admin POST /_cluster_setup 201 ok 28
+[notice] 2020-05-18T03:28:33.187704Z nonode@nohost <0.451.0> 137d9e275d Setup: [{<<"action">>,<<"add_node">>},{<<"host">>,<<"172.26.130.78">>},{<<"port">>,<<"5984">>},{<<"username">>,<<"admin">>},{<<"password">>,<<"password">>}]
+
+[notice] 2020-05-18T03:28:33.187756Z nonode@nohost <0.451.0> 137d9e275d add_node: [{<<"action">>,<<"add_node">>},{<<"host">>,<<"172.26.130.78">>},{<<"port">>,<<"5984">>},{<<"username">>,<<"admin">>},{<<"password">>,<<"password">>}]
+
+[notice] 2020-05-18T03:28:33.191022Z nonode@nohost <0.451.0> 137d9e275d 172.26.133.161:5984 128.250.4.110 admin POST /_cluster_setup 201 ok 4
+[notice] 2020-05-18T03:28:33.737527Z nonode@nohost <0.454.0> ea7e5815d0 172.26.133.161:5984 128.250.4.112 admin GET / 200 ok 12
+[notice] 2020-05-18T03:28:33.777371Z nonode@nohost <0.448.0> 2cd1e6c279 172.26.133.161:5984 128.250.4.104 admin GET / 200 ok 1
+[notice] 2020-05-18T03:28:33.778619Z nonode@nohost <0.323.0> -------- chttpd_auth_cache changes listener died because the _users database does not exist. Create the database to silence this notice.
+[error] 2020-05-18T03:28:33.778849Z nonode@nohost emulator -------- Error in process <0.473.0> with exit value:
+{database_does_not_exist,[{mem3_shards,load_shards_from_db,"_users",[{file,"src/mem3_shards.erl"},{line,399}]},{mem3_shards,load_shards_from_disk,1,[{file,"src/mem3_shards.erl"},{line,374}]},{mem3_shards,load_shards_from_disk,2,[{file,"src/mem3_shards.erl"},{line,403}]},{mem3_shards,for_docid,3,[{file,"src/mem3_shards.erl"},{line,96}]},{fabric_doc_open,go,3,[{file,"src/fabric_doc_open.erl"},{line,39}]},{chttpd_auth_cache,ensure_auth_ddoc_exists,2,[{file,"src/chttpd_auth_cache.erl"},{line,198}]},{chttpd_auth_cache,listen_for_changes,1,[{file,"src/chttpd_auth_cache.erl"},{line,145}]}]}
+
+[notice] 2020-05-18T03:28:33.803494Z nonode@nohost <0.345.0> -------- couch_replicator_clustering : cluster stable
+[notice] 2020-05-18T03:28:33.808409Z nonode@nohost <0.451.0> 3f4ed07085 172.26.133.161:5984 128.250.4.110 admin GET / 200 ok 1
+[notice] 2020-05-18T03:28:33.808740Z nonode@nohost <0.355.0> -------- Started replicator db changes listener <0.474.0>
+[info] 2020-05-18T03:28:33.809338Z nonode@nohost <0.476.0> -------- open_result error {not_found,no_db_file} for _replicator
+[notice] 2020-05-18T03:28:34.187014Z nonode@nohost <0.455.0> 4030ee0371 Setup: [{<<"action">>,<<"finish_cluster">>}]
+
+[notice] 2020-05-18T03:28:34.187065Z nonode@nohost <0.455.0> 4030ee0371 finish_cluster: [{<<"action">>,<<"finish_cluster">>}]
+
+[error] 2020-05-18T03:28:34.205343Z nonode@nohost <0.455.0> 4030ee0371 Request to create N=3 DB but only 1 node(s)
+[notice] 2020-05-18T03:28:34.250428Z nonode@nohost <0.456.0> 6e58047ca4 Setup: [{<<"action">>,<<"finish_cluster">>}]
+
+[notice] 2020-05-18T03:28:34.250481Z nonode@nohost <0.456.0> 6e58047ca4 finish_cluster: [{<<"action">>,<<"finish_cluster">>}]
+
+[error] 2020-05-18T03:28:34.250769Z nonode@nohost <0.456.0> 6e58047ca4 Request to create N=3 DB but only 1 node(s)
+[error] 2020-05-18T03:28:34.266365Z nonode@nohost <0.456.0> 6e58047ca4 Request to create N=3 DB but only 1 node(s)
+[error] 2020-05-18T03:28:34.270649Z nonode@nohost <0.455.0> 4030ee0371 Request to create N=3 DB but only 1 node(s)
+[notice] 2020-05-18T03:28:34.289333Z nonode@nohost <0.455.0> 4030ee0371 finish_cluster: ok
+
+[notice] 2020-05-18T03:28:34.289571Z nonode@nohost <0.455.0> 4030ee0371 172.26.133.161:5984 128.250.4.112 admin POST /_cluster_setup 201 ok 103
+[notice] 2020-05-18T03:28:34.290280Z nonode@nohost <0.457.0> f2a6e3ce5b Setup: [{<<"action">>,<<"finish_cluster">>}]
+
+[notice] 2020-05-18T03:28:34.290333Z nonode@nohost <0.457.0> f2a6e3ce5b finish_cluster: [{<<"action">>,<<"finish_cluster">>}]
+
+[notice] 2020-05-18T03:28:34.306033Z nonode@nohost <0.456.0> 6e58047ca4 finish_cluster: ok
+
+[notice] 2020-05-18T03:28:34.307989Z nonode@nohost <0.456.0> 6e58047ca4 172.26.133.161:5984 128.250.4.104 admin POST /_cluster_setup 201 ok 58
+[notice] 2020-05-18T03:28:34.319635Z nonode@nohost <0.474.0> -------- creating replicator ddoc <<"shards/80000000-ffffffff/_replicator.1589772514">>
+[notice] 2020-05-18T03:28:34.374460Z nonode@nohost <0.457.0> f2a6e3ce5b 172.26.133.161:5984 128.250.4.110 admin POST /_cluster_setup 400 ok 96
+[notice] 2020-05-18T03:28:34.780479Z nonode@nohost <0.455.0> ab4d545b7a 172.26.133.161:5984 128.250.4.112 admin GET /_membership 200 ok 8
+[notice] 2020-05-18T03:28:34.834668Z nonode@nohost <0.456.0> b25f6d0b8d 172.26.133.161:5984 128.250.4.104 admin GET /_membership 200 ok 1
+[notice] 2020-05-18T03:28:34.840612Z nonode@nohost <0.457.0> e11dd469d1 172.26.133.161:5984 128.250.4.110 admin GET /_membership 200 ok 1
+[notice] 2020-05-18T03:28:42.500848Z nonode@nohost <0.650.0> 9653e53639 localhost:5984 172.17.0.1 admin PUT /harvester/1262223643548848130 404 ok 1
+[notice] 2020-05-18T03:28:43.498590Z nonode@nohost <0.249.0> -------- rexi_server : cluster stable
+[notice] 2020-05-18T03:28:43.501969Z nonode@nohost <0.253.0> -------- rexi_buffer : cluster stable
+[notice] 2020-05-18T03:29:31.104950Z nonode@nohost <0.1046.0> cf91faf9fd 172.26.133.161:5984 128.250.28.148 undefined GET /_utils/ 304 ok 1
+[notice] 2020-05-18T03:29:31.195853Z nonode@nohost <0.1046.0> 0faeabb2dc 172.26.133.161:5984 128.250.28.148 undefined GET /_utils/dashboard.assets/css/styles.cba9030469264f5dd736.css 304 ok 1
+[notice] 2020-05-18T03:29:31.530345Z nonode@nohost <0.1046.0> 75d6d01e6a 172.26.133.161:5984 128.250.28.148 undefined GET / 200 ok 1
+[notice] 2020-05-18T03:29:31.532702Z nonode@nohost <0.1047.0> 0d66c267ab 172.26.133.161:5984 128.250.28.148 undefined GET / 200 ok 0
+[notice] 2020-05-18T03:29:31.568553Z nonode@nohost <0.1048.0> 1ddc606e76 172.26.133.161:5984 128.250.28.148 undefined GET / 200 ok 0
+[notice] 2020-05-18T03:29:31.572405Z nonode@nohost <0.1046.0> dcdf00b5fe 172.26.133.161:5984 128.250.28.148 undefined GET /_session 200 ok 0
+[notice] 2020-05-18T03:29:31.573684Z nonode@nohost <0.1047.0> 32d5371e60 172.26.133.161:5984 128.250.28.148 undefined GET /_utils/dashboard.assets/img/couchdb-logo.png 304 ok 1
+[notice] 2020-05-18T03:29:31.668645Z nonode@nohost <0.1047.0> e7dfbd9efe 172.26.133.161:5984 128.250.28.148 undefined GET /_session 200 ok 0
+[notice] 2020-05-18T03:29:31.673522Z nonode@nohost <0.1046.0> e84b2b3892 172.26.133.161:5984 128.250.28.148 undefined GET /_utils/dashboard.assets/img/couchdb-logo.png 304 ok 1
+[notice] 2020-05-18T03:29:39.162285Z nonode@nohost <0.1046.0> c5cfb49de0 172.26.133.161:5984 128.250.28.148 undefined POST /_session 200 ok 21
+[notice] 2020-05-18T03:29:39.249813Z nonode@nohost <0.1046.0> 39ca5b5c4c 172.26.133.161:5984 128.250.28.148 admin GET /_session 200 ok 1
+[notice] 2020-05-18T03:29:39.333256Z nonode@nohost <0.1046.0> 9f07b7cdf0 172.26.133.161:5984 128.250.28.148 admin GET /_all_dbs 200 ok 22
+[notice] 2020-05-18T03:29:39.405960Z nonode@nohost <0.1046.0> 9a24db7ce5 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 18
+[notice] 2020-05-18T03:29:39.406250Z nonode@nohost <0.1047.0> f62eb2c50b 172.26.133.161:5984 128.250.28.148 admin GET /_users 200 ok 16
+[notice] 2020-05-18T03:29:39.714072Z nonode@nohost <0.1047.0> e550b34584 172.26.133.161:5984 128.250.28.148 admin GET /_all_dbs?startkey=%22%22&endkey=%22%E9%A6%99%22&limit=30 200 ok 2
+[notice] 2020-05-18T03:29:45.643753Z nonode@nohost <0.1047.0> df870a298c 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?startkey=%22_design%2F%22&endkey=%22_design0%22&include_docs=true&limit=501 200 ok 5
+[notice] 2020-05-18T03:29:45.643906Z nonode@nohost <0.1046.0> 7602246210 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 1
+[notice] 2020-05-18T03:29:45.646836Z nonode@nohost <0.1048.0> 11d2358382 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 1
+[notice] 2020-05-18T03:29:45.687640Z nonode@nohost <0.1046.0> 0a4fe65034 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?skip=0&limit=101 200 ok 4
+[notice] 2020-05-18T03:29:45.688018Z nonode@nohost <0.1202.0> c03bb6f3b9 172.26.133.161:5984 128.250.28.148 admin GET /_utils/dashboard.assets/img/couch-watermark.png 304 ok 1
+[notice] 2020-05-18T03:29:46.011869Z nonode@nohost <0.1046.0> ee9b5ef6a1 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?startkey=%22%22&endkey=%22%E9%A6%99%22&limit=30 200 ok 2
+[notice] 2020-05-18T03:29:47.602282Z nonode@nohost <0.1046.0> 1ab0fb379a 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 1
+[notice] 2020-05-18T03:29:47.615752Z nonode@nohost <0.1202.0> 28bbe5be7c 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_design/_replicator?conflicts=true 200 ok 1
+[notice] 2020-05-18T03:29:47.761335Z nonode@nohost <0.1202.0> 7d97797744 172.26.133.161:5984 128.250.28.148 admin GET /_uuids?count=1 200 ok 31
+[notice] 2020-05-18T03:29:51.132023Z nonode@nohost <0.1202.0> 4bdd448a58 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?startkey=%22_design%2F%22&endkey=%22_design0%22&include_docs=true&limit=501 200 ok 2
+[notice] 2020-05-18T03:29:51.133531Z nonode@nohost <0.1046.0> 348fd764a9 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 1
+[notice] 2020-05-18T03:29:51.138610Z nonode@nohost <0.1048.0> 4366483218 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?skip=0&limit=101 200 ok 4
+[notice] 2020-05-18T03:29:51.138898Z nonode@nohost <0.1047.0> f1627b4795 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 1
+[notice] 2020-05-18T03:29:51.505536Z nonode@nohost <0.1047.0> f051d3d914 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?startkey=%22%22&endkey=%22%E9%A6%99%22&limit=30 200 ok 2
+[notice] 2020-05-18T03:29:53.828917Z nonode@nohost <0.1047.0> 8cfe8d0e2a 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 3
+[notice] 2020-05-18T03:29:53.845580Z nonode@nohost <0.1048.0> 09ad76627c 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 1
+[notice] 2020-05-18T03:29:53.852765Z nonode@nohost <0.1202.0> 1c07a13b16 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?inclusive_end=false&start_key=%22_design%22&end_key=%22_design0%22&skip=0&limit=101 200 ok 5
+[notice] 2020-05-18T03:29:57.241501Z nonode@nohost <0.1202.0> 78de5f2b03 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 6
+[notice] 2020-05-18T03:29:57.247730Z nonode@nohost <0.1048.0> 6864d3f516 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 2
+[notice] 2020-05-18T03:29:57.265265Z nonode@nohost <0.1047.0> e62aa90697 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?skip=0&limit=101 200 ok 6
+[notice] 2020-05-18T03:29:58.003747Z nonode@nohost <0.1047.0> 741ee9d4b6 172.26.133.161:5984 128.250.28.148 admin GET /_all_dbs 200 ok 2
+[notice] 2020-05-18T03:29:58.049964Z nonode@nohost <0.1047.0> 68a4af6a14 172.26.133.161:5984 128.250.28.148 admin GET /_replicator 200 ok 1
+[notice] 2020-05-18T03:29:58.058018Z nonode@nohost <0.1048.0> 3c9a8b696b 172.26.133.161:5984 128.250.28.148 admin GET /_users 200 ok 7
+[notice] 2020-05-18T03:29:58.356549Z nonode@nohost <0.1048.0> 43528b36ad 172.26.133.161:5984 128.250.28.148 admin GET /_all_dbs?startkey=%22%22&endkey=%22%E9%A6%99%22&limit=30 200 ok 10
+[notice] 2020-05-18T03:29:59.868731Z nonode@nohost <0.1048.0> 8142181a7b 172.26.133.161:5984 128.250.28.148 admin GET /_users/_all_docs?startkey=%22_design%2F%22&endkey=%22_design0%22&include_docs=true&limit=501 200 ok 2
+[notice] 2020-05-18T03:29:59.878127Z nonode@nohost <0.1047.0> 189b64a62e 172.26.133.161:5984 128.250.28.148 admin GET /_users 200 ok 2
+[notice] 2020-05-18T03:29:59.878674Z nonode@nohost <0.1046.0> 9b69ead258 172.26.133.161:5984 128.250.28.148 admin GET /_users 200 ok 2
+[notice] 2020-05-18T03:29:59.878876Z nonode@nohost <0.1202.0> 7fdad8703b 172.26.133.161:5984 128.250.28.148 admin GET /_users/_all_docs?skip=0&limit=101 200 ok 2
+[notice] 2020-05-18T03:30:00.248416Z nonode@nohost <0.1202.0> 8cc77dd437 172.26.133.161:5984 128.250.28.148 admin GET /_users/_all_docs?startkey=%22%22&endkey=%22%E9%A6%99%22&limit=30 200 ok 2
+[notice] 2020-05-18T03:30:01.544626Z nonode@nohost <0.1202.0> c4ce9046aa 172.26.133.161:5984 128.250.28.148 admin GET /_membership 200 ok 3
+[notice] 2020-05-18T03:30:01.545094Z nonode@nohost <0.1046.0> 522458fb78 Dbs: ["_users","_replicator"]
+
+[notice] 2020-05-18T03:30:01.546084Z nonode@nohost <0.1046.0> 522458fb78 172.26.133.161:5984 128.250.28.148 admin GET //_cluster_setup 200 ok 2
+[notice] 2020-05-18T03:30:03.484232Z nonode@nohost <0.1202.0> a8ccf6ad05 172.26.133.161:5984 128.250.28.148 admin GET /_all_dbs 200 ok 2
+[notice] 2020-05-18T03:30:03.487366Z nonode@nohost <0.1046.0> b5d13760c2 172.26.133.161:5984 128.250.28.148 admin GET /_scheduler/jobs 200 ok 25
+[notice] 2020-05-18T03:30:03.536598Z nonode@nohost <0.1046.0> 5f9008d16d 172.26.133.161:5984 128.250.28.148 admin GET /_replicator/_all_docs?include_docs=true&limit=100 200 ok 5
+[notice] 2020-05-18T03:30:03.538062Z nonode@nohost <0.1047.0> 9a842328a4 172.26.133.161:5984 128.250.28.148 admin GET /_scheduler/jobs 200 ok 1
+[notice] 2020-05-18T03:30:03.552734Z nonode@nohost <0.1202.0> 3c771bb0fa 172.26.133.161:5984 128.250.28.148 admin GET /_scheduler/docs?include_docs=true 200 ok 17
+[notice] 2020-05-18T03:30:08.885248Z nonode@nohost <0.1202.0> a498216745 172.26.133.161:5984 128.250.28.148 admin GET /_utils/dashboard.assets/img/couchdb-logo.png 304 ok 4
+[notice] 2020-05-18T03:30:08.956922Z nonode@nohost <0.1046.0> 877167669f 172.26.133.161:5984 128.250.28.148 admin GET /_utils/dashboard.assets/img/github.png 200 ok 73
+[notice] 2020-05-18T03:30:08.965183Z nonode@nohost <0.1202.0> 63a78aa477 172.26.133.161:5984 128.250.28.148 admin GET /_utils/dashboard.assets/img/googleplus.png 200 ok 43
+[notice] 2020-05-18T03:30:08.965328Z nonode@nohost <0.1607.0> edbc2906a6 172.26.133.161:5984 128.250.28.148 admin GET /_utils/dashboard.assets/img/linkedin.png 200 ok 33
+[notice] 2020-05-18T03:30:08.972694Z nonode@nohost <0.1047.0> 4c50f14872 172.26.133.161:5984 128.250.28.148 admin GET /_utils/dashboard.assets/img/asf-feather-logo.png 200 ok 86
+[notice] 2020-05-18T03:30:08.972854Z nonode@nohost <0.1048.0> f0674b9099 172.26.133.161:5984 128.250.28.148 admin GET /_utils/dashboard.assets/img/twitter.png 200 ok 77
+[notice] 2020-05-18T03:30:12.954398Z nonode@nohost <0.1047.0> a86a0c341b 172.26.133.161:5984 128.250.28.148 admin GET /_membership 200 ok 1
+[notice] 2020-05-18T03:30:13.048977Z nonode@nohost <0.1047.0> aacd0aaf97 172.26.133.161:5984 128.250.28.148 admin GET /_membership 200 ok 1
+[notice] 2020-05-18T03:30:17.383259Z nonode@nohost <0.1047.0> 2d1ff526e5 172.26.133.161:5984 128.250.28.148 admin GET /_membership 200 ok 1
+[notice] 2020-05-18T03:30:17.498348Z nonode@nohost <0.1047.0> fe96936af5 172.26.133.161:5984 128.250.28.148 admin GET /_node/nonode@nohost/_config 200 ok 26

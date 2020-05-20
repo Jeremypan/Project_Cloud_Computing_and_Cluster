@@ -1,2 +1,2 @@
 user = "admin"
-password = "password"
+password = "admin"
