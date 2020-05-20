@@ -5,6 +5,7 @@ import json
 import couchdb
 from dblogin import user, password
 import sys
+import nltk
 
 class dbStreamListener(tweepy.StreamListener):
     def __init__(self, api,db):
@@ -39,6 +40,7 @@ if __name__ == '__main__':
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth,wait_on_rate_limit = True,wait_on_rate_limit_notify= True)
+    nltk.download('punkt')
 
     # select database
     server = couchdb.Server("http://%s:%s@localhost:5984/" % (user,password))

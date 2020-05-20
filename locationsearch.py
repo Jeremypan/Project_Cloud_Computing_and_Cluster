@@ -4,7 +4,10 @@ import json
 import couchdb
 from dblogin import user, password
 import sys
+from preprocess import covidsentiment
+import nltk
 
+nltk.download('punkt')
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth,wait_on_rate_limit = True,wait_on_rate_limit_notify= True)
@@ -24,8 +27,9 @@ while True:
         jsonStr = json.dumps(tweet._json)
         jsonObj = json.loads(jsonStr)
         if "id" in jsonObj and "full_text" in jsonObj and "id_str" in jsonObj and "place" in jsonObj:
+            doc = covidsentiment(jsonObj)
             try:
-                db[str(jsonObj["id_str"])] = jsonObj
+                db[str(jsonObj["id_str"])] = doc
                 print(jsonObj["place"]["full_name"])
             except couchdb.http.ResourceConflict:
                 continue
