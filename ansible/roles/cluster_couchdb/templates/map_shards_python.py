@@ -1,3 +1,5 @@
+"""script for map out cluster to exsited database -- retrieve volumes data"""
+
 import requests
 import json
 url_admin='http://{}:{}@{}:{}/_membership'.format("admin", "admin","localhost","5984")
@@ -55,6 +57,8 @@ url_put_replicator='http://{}:{}@{}:{}/_node/_local/_dbs/_replicator'.format("ad
 url_put_global_changes='http://{}:{}@{}:{}/_node/_local/_dbs/_global_changes'.format("admin", "admin","localhost","5984")
 url_database_sync='http://{}:{}@{}:{}/harvester/_sync_shards'.format("admin", "admin","localhost","5984")
 result=json.loads(requests.put(url_put_harvester,json=format).content)
+
+
 def run_loads(format,url):
     temp=json.loads(requests.get(url).content)
     format['_rev']=temp['_rev']
@@ -64,12 +68,6 @@ def run_loads(format,url):
 print(run_loads(format,url_put_users))
 print(run_loads(format,url_put_replicator))
 print(run_loads(format,url_put_global_changes))
-
-# format['_rev']=result['rev']
-# result=json.loads(requests.put(url_put_replicator,json=format).content)
-# print(result)
-# format['_rev']=result['rev']
-# print(requests.put(url_put_global_changes,json=format).content)
 print(requests.post(url_database_sync).content)
 
 
