@@ -27,4 +27,4 @@
   shell: 'nohup python3 {{ workplace_directory }}/aurin_sa4/{{ item }} > /dev/null 2>&1 &'
   with_items:
     - aurin.py
-  when: inventory_hostname == ip_address_list[1]
+  when: inventory_hostname == master_node
