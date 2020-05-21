@@ -83,3 +83,7 @@ read_population('population.json')
 read_family('family.json')
 read_hospital('hospital.json')
 read_income('income.json')
+
+db = server["aurin"]
+with open("view_aurin.json") as file_object:
+    db["_design/analysis"] = json.load(file_object)
