@@ -1,0 +1,34 @@
+---
+- name: create file system
+  become: yes
+  filesystem:
+    fstype: xfs
+    dev: /dev/vdb
+  when:  /dev/vdb is defined
+
+- name: directory
+  become: yes
+  stat:
+    path: /data
+  register: directory_stats
+
+- debug:
+    msg: "| directory_stats ==> {{ directory_stats }}"
+
+
+- name: Create directory
+  become: yes
+  file:
+    path: /data
+    recurse: yes
+    state: directory
+
+
+- name: Mount device
+  become: yes
+  mount:
+    path: /data
+    src: /dev/vdb
+    fstype: xfs
+    state: mounted
+  when: /dev/vdb is defined

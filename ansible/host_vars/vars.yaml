@@ -13,33 +13,6 @@ working_dicrectory: /home/ccc
 ## Security Group  ##
 #####################
 security_groups:
-  # - name: server_1-security
-  #   description: "security group for server_1"
-  #   rules:
-  #     - name: 'Any'
-  #       protocol: tcp
-  #       port_range_min: 1
-  #       port_range_max: 65535
-  #       remote_ip_prefix: 0.0.0.0/0
-        
-  # - name: server_2-security
-  #   description: "security group for server_2"
-  #   rules:
-  #     - name: 'Any'
-  #       protocol: tcp
-  #       port_range_min: 1
-  #       port_range_max: 65535
-  #       remote_ip_prefix: 0.0.0.0/0
-
-  # - name: server_3-security
-  #   description: "security group for server_3"
-  #   rules:
-  #     - name: 'Any'
-  #       protocol: tcp
-  #       port_range_min: 1
-  #       port_range_max: 65535
-  #       remote_ip_prefix: 0.0.0.0/0
-
   - name: server_security
     description: "open security group for clustering"
   
@@ -73,17 +46,20 @@ instances:
   - name: Server1
     security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance1_volumes|default([]) }}'
-    volumes: ['db1']
+    volumes: 'db1'
+    fixed_address: 172.26.130.40
 
   - name: Server2
     security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance2_volumes|default([]) }}'
-    volumes: ['db2']
+    volumes: 'db2'
+    fixed_address: 172.26.131.73
 
   - name: Server3
     security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance3_volumes|default([]) }}'
-    volumes: ['db3']
+    volumes: 'db3'
+    fixed_address: 172.26.131.229
 
 #####################
 ## volumes       ##
@@ -91,10 +67,16 @@ instances:
 volumes:
   - vol_name: db1
     vol_size: 30
+    instance: Server1
+    device_name: /dev/vdb
   - vol_name: db2
     vol_size: 30
+    instance: Server2
+    device_name: /dev/vdb
   - vol_name: db3
     vol_size: 30
+    instance: Server3
+    device_name: /dev/vdb
   
 
 

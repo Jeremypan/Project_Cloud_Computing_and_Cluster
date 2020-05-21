@@ -1,0 +1,84 @@
+- name: install essenstails for harvester
+  tags: always
+  become: yes
+  pip:
+    name: ['tweepy','couchdb']
+    state: latest
+
+- name: create a harvester directory
+  become: yes
+  file:
+    path: '{{ remote_directory }}'
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+
+# - name: debug template
+#   debug:
+#     msg: '{{ item.path }}'
+#   with_filetree: "../templates/{{local_template_directory}}"
+
+- name: create harvester python script
+  become: yes
+  file:
+    path: '{{ remote_directory }}/{{ item.path }}'
+    state: touch
+    owner: ubuntu
+    group: ubuntu
+  with_filetree: "../templates/{{local_template_directory}}"
+
+# - name: debug auth keys
+#   debug:
+#     msg: '{{ auth_keys }}'
+
+# - name: debug ip
+#   debug:
+#     msg: '{{ item }}'
+#   loop: '{{ auth_keys }}'
+#   when: inventory_hostname==item.name
+  
+- name: copy auth file
+  become: yes
+  template:
+    src: "../templates/{{local_template_directory}}/auth.py"
+    dest: "{{ remote_directory }}/auth.py"
+    owner: ubuntu
+    group: ubuntu
+    force: yes
+  loop: "{{ auth_keys }}"
+  when: inventory_hostname==item.name
+  
+- name: copy files
+  become: yes
+  template:
+    src: "../templates/{{local_template_directory}}/{{ item.path }}"
+    dest: '{{ remote_directory }}/{{ item.path }}'
+    owner: ubuntu
+    group: ubuntu
+  with_filetree: "../templates/{{local_template_directory}}"
+  when: item.path != 'auth.py'
+    
+- name: check the running process for harvester
+  become: yes
+  shell: ps -ef | grep -v grep | grep -w {{ item }} | awk '{print $2}'
+  with_items:
+    - streamtimeline.py
+    - locationsearch.py
+  register: running_processes_id
+
+# - name: check_result
+#   debug:
+#     msg: "{{ running_processes_id }}"
+
+- name: kill harvester_running
+  become: yes
+  shell: kill {{ item.stdout }}
+  with_items: "{{ running_processes_id.results }}"
+  when: item.stdout != ""
+
+- name: run_harvester
+  become: yes
+  shell: 'nohup python3 {{ remote_directory }}/{{ item }} > /dev/null 2>&1 &'
+  with_items:
+    - streamtimeline.py
+    - locationsearch.py

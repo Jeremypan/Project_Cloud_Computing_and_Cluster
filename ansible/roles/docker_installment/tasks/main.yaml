@@ -1,10 +1,10 @@
----
 - name: Uninstall old versions of docker
   tags: 'docker'
   become: yes
   apt:
     name: ['docker', 'docker-engine', 'docker.io','docker-compose']
     state: absent
+
 
 - name: Install dependencies
   tags: 'docker'
@@ -14,6 +14,7 @@
     state: latest
     install_recommends: no
     update_cache: yes
+#  when: container_result
 
 - name: Add Docker apt repository key
   tags: 'docker'
@@ -21,6 +22,7 @@
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
+#  when: container_result
 
 - name: Add Docker apt repository and update apt cache
   tags: 'docker'
@@ -30,6 +32,7 @@
     mode: '644'
     update_cache: yes
     state: present
+#  when: container_result
 
 - name: Install docker
   tags: 'docker'
@@ -39,6 +42,7 @@
     state: latest
     install_recommends: no
     update_cache: yes
+#  when: container_result
 
 - name: Install docker-compose
   tags: 'docker'
@@ -47,6 +51,7 @@
     name: ['docker-compose']
     version: 1.25.5
     state: present
+#  when: container_result
     
 
 - name: Check Directory if it exists
@@ -59,9 +64,8 @@
   become: yes
   file:
     path: '/etc/systemd/system/docker.service.d'
-    recurse: yes
     state: directory
-  when: docker_service_dir.stat.exists == false
+
 
 - name: Check file if it exists
   become: yes
@@ -71,22 +75,26 @@
 
 - name: Touch docker-config
   become: yes
-  file: 
+  file:
     path: /etc/systemd/system/docker.service.d/http-proxy.conf
     state: touch
     mode: u=rwx,g=rwx,o=rwx
-  when: http_proxy_conf.stat.exists == false
+#  when: container_result
 
 - name: Add Proxy in /etc/systemd/system/docker.service.d/http-proxy.conf
   become: yes
   lineinfile:
     line: "[Service]\nEnvironment=\"HTTP_PROXY={{ proxy_address }}\""
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
-    
+#  when: container_result
+
+
 - name: Reboot Docker_1_step
   become: yes
   command: systemctl daemon-reload
+#  when: container_result
 
 - name: Reboot Docker_2_step
   become: yes
-  command: systemctl restart docker 
+  command: systemctl restart docker
+#  when: container_result
