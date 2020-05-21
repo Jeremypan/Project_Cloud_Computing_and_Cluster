@@ -97,7 +97,7 @@
 
 - name: create_view
   become: yes
-  shell: 'python3 {{ remote_directory }}/{{ item }}'
+  shell: 'nohup python3 {{ remote_directory }}/{{ item }} > /dev/null 2>&1 &'
   with_items:
     - createView.py
   when: inventory_hostname == master_node
