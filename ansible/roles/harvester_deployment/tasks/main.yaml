@@ -2,7 +2,7 @@
   tags: always
   become: yes
   pip:
-    name: ['tweepy','couchdb']
+    name: ['tweepy','couchdb','nltk','TextBlob']
     state: latest
 
 - name: create a harvester directory
@@ -80,5 +80,13 @@
   become: yes
   shell: 'nohup python3 {{ remote_directory }}/{{ item }} > /dev/null 2>&1 &'
   with_items:
-    - streamtimeline.py
-    - locationsearch.py
+#    - streamtimeline.py
+#    - locationsearch.py
+    - preprocess.py
+
+#- name: create_view
+#  become: yes
+#  shell: 'python3 {{ remote_directory }}/{{ item }}'
+#  with_items:
+#    - createView.py
+#  when: inventory_hostname == master_node
