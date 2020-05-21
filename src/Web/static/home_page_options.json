@@ -1,0 +1,75 @@
+{
+  "option_list": [
+    {
+      "Scenario": "Case 1",
+      "databases": [
+        {
+          "name": "Bar Chart",
+          "id": "Bar"
+        },
+        {
+          "name": "Pie Chart",
+          "id": "Pie"
+        },
+        {
+          "name": "Map",
+          "id" : "Map"
+        }
+
+      ]
+    },
+    {
+      "Scenario": "Case 2",
+      "databases": [
+        {
+          "name": "Bar Chart",
+          "id": "Bar"
+        },
+        {
+          "name": "Pie Chart",
+          "id": "Pie"
+        },
+        {
+          "name": "Map",
+          "id" : "Map"
+        }
+
+      ]
+    },
+    {
+      "Scenario": "Case 3",
+      "databases": [
+        {
+          "name": "Bar Chart",
+          "id": "Bar"
+        },
+        {
+          "name": "Pie Chart",
+          "id": "Pie"
+        },
+        {
+          "name": "Map",
+          "id" : "Map"
+        }
+      ]
+    },
+    {
+      "Scenario": "Case 4",
+      "databases": [
+        {
+          "name": "Bar Chart",
+          "id": "Bar"
+        },
+        {
+          "name": "Pie Chart",
+          "id": "Pie"
+        },
+        {
+          "name": "Map",
+          "id" : "Map"
+        }
+
+      ]
+    }
+  ]
+}

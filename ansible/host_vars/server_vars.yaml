@@ -19,3 +19,8 @@ mount_point: /opt/couchdb
 
 #workplace_directory
 workplace_directory: /home/ubuntu/CCC
+branch: master
+
+#github vars
+github_user: Ccc90024
+github_pass: 

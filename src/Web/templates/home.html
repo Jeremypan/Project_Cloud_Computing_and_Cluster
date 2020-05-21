@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% block styles %}
+  {{ super() }}
+  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
+{% endblock %}
+
+<!-- Sidebar -->
+{% block side_bar %}
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('home') }}">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">Comp90024 Assignment Team 61</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Scenario selector -->
+    <li class="nav-item active">
+      <a class="nav-link">
+        <i class="fas fa-fw fa-address-card"></i>
+        <span>Scenario</span>
+      </a>
+      <select class="custom-select" id="scen_sel" name="scen_sel" onchange="ScenarioChange()">
+        {% for option in option_list %}
+          <option value="{{ option.Scenario }}" class="dropdown-item">{{ option.Scenario }}</option>
+        {% endfor %}
+      </select>
+    </li>
+
+    <!-- Graph selector -->
+    <li class="nav-item active">
+      <a class="nav-link">
+        <i class="fas fa-fw fa-database"></i>
+        <span>Graph Type</span>
+      </a>
+      <div class="graph-group" id="graph">
+        {% for database in option_list[0].databases %}
+          <div>
+            <label>
+              <input type="radio" name="database" id="{{ database.id }}"
+                     onclick="onDatabaseSelectChange('{{ database.name }}')"/>
+              {{ database.name }}
+            </label>
+          </div>
+        {% endfor %}
+      </div>
+    </li>
+
+    <!-- Button Display  -->
+    <button class="btn btn-light" id="searchBtn" onclick="display()">
+      Display
+    </button>
+
+  </ul>
+{% endblock %}
+
+<!-- Display Area -->
+{% block content %}
+
+  <div name="visualize" style="width: 80%; position: relative; left: 20px;top: 20px;">
+    <div id="chartArea" style="height: 500px">
+      <div id="title">
+        <tab>Title</tab>
+      </div>
+      <div id="content" style="position: relative;width: 50%;height: 80%;left:30px">
+        <canvas id="barChartCanvas"
+                style="position: absolute;width: 378px; top: -40px ;height: 400px;left: 150px;display: block;"></canvas>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block javascript %}
+  {{ super() }}
+  <script src='http://www.google.com/jsapi'></script>
+  <script>
+  function getGraphValue(element,name){
+    let val;
+    let graph_data=$('[name=' + name + ']:checked');
+    val = graph_data.attr('id');
+    return val;
+
+  }
+
+  function onDatabaseSelectChange(name) {
+    let options ="{{option_list|tojson}}";
+
+
+  }
+
+  /**
+   * return json data of display value from selector case and graph to flask
+   */
+  function display(){
+    let selcase= $("#scen_sel").val();
+    let selgraph= getGraphValue("graph","database");
+    let data ={
+      selgraph:selgraph,
+      selcase:selcase
+    };
+    let options = {
+      url:"{{ url_for('display')}}",
+      dataType:"json",
+      contentType:"application/json",
+      type:"post",
+      data: JSON.stringify(data)
+    };
+    $.ajax(options)
+  }
+  </script>
+{% endblock %}

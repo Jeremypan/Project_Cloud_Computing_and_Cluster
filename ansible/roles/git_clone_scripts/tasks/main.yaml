@@ -7,15 +7,24 @@
     group: ubuntu
     mode: 0775
 
-- name: attach github key
-  become: yes
-  template:
-    src: "../templates/GroupKey"
-    dest: "/home/ubuntu/.ssh/GroupKey"
-    owner: ubuntu
-    group: ubuntu
-    mode: 0600
+#- name: attach github key
+#  become: yes
+#  template:
+#    src: "../templates/GroupKey"
+#    dest: "/home/ubuntu/.ssh/GroupKey"
+#    owner: ubuntu
+#    group: ubuntu
+#    mode: 0600
 
 - name: clone code to Server
   git:
-    repo: 
+    repo: "https://{{github_user}}:{{github_pass}}@github.com/Jeremypan/CCC_Assignment_2.git"
+    dest: "{{ workplace_directory }}"
+    version: "{{ branch }}"
+
+- name: upload aurin json data to couchdb
+  become: yes
+  shell: 'nohup python3 {{ workplace_directory }}/aurin_sa4/{{ item }} > /dev/null 2>&1 &'
+  with_items:
+    - aurin.py
+  when: inventory_hostname == ip_address_list[1]

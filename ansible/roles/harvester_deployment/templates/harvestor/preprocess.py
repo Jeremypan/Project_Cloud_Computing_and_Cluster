@@ -25,9 +25,8 @@ def covidsentiment(doc):
 
 if __name__ == "__main__":
     nltk.download('punkt')
-    server = couchdb.Server("http://%s:%s@:5984/" % (user,password))
+    server = couchdb.Server("http://%s:%s@localhost:5984/" % (user,password))
     db = server["harvester"]
-
     for row in db.view("_all_docs"):
         key = row["key"]
         doc = covidsentiment(db[key])
