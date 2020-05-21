@@ -15,3 +15,7 @@ couchdb_uuid: 'a192aeb9904e6590849337933b001159'
 #mount:
 device: /dev/vdb
 mount_point: /opt/couchdb
+
+
+#workplace_directory
+workplace_directory: /home/ubuntu/CCC

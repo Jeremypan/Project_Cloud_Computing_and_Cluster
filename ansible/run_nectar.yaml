@@ -9,7 +9,6 @@
     - role: volumes
     - role: security-group
     - role: create_instance
-    - role: create_volume_snapshot
 
 # - hosts: CCC_Assignment_2
 #   vars_files:
@@ -24,6 +23,7 @@
 - hosts: CCC_Assignment_2
   vars_files:
     - host_vars/harvester_vars.yaml
+    - host_vars/server_vars.yaml
   roles:
     - role: harvester_deployment
     - role: git_clone_scripts

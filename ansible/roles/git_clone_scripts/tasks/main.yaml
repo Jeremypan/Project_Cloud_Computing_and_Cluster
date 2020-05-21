@@ -1,0 +1,21 @@
+- name: create a harvester directory
+  become: yes
+  file:
+    path: "{{ workplace_directory }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: attach github key
+  become: yes
+  template:
+    src: "../templates/GroupKey"
+    dest: "/home/ubuntu/.ssh/GroupKey"
+    owner: ubuntu
+    group: ubuntu
+    mode: 0600
+
+- name: clone code to Server
+  git:
+    repo: 

@@ -24,4 +24,5 @@ remote_directory: /home/ubuntu/harvestor
 script_name: ['auth.py','dblogin.py','locationsearch.py','steamtimeline.py','timelineThread.py']
 local_template_directory: harvestor
 
+
   
