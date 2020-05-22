@@ -20,13 +20,19 @@ def home():
     """
     return render_template("home.html",option_list=option_list)
 
-@app.route('/display')
+@app.route('/display',methods=['POST'])
 def display():
     try:
+        #data from web interface - Scenario Selector and Graph Type Option Box
         data=request.json
     except Exception as e:
         print(e)
-    return str(data)
+    result={} #
+    ##################################使用data是web的输入， result是存入画图的数据#########################################
+    #query 完的 数据存进 result
+    result["ans"]="Draw "+data['case']+" "+ data['graph'] #Demo 删
+    print(result)
+    return jsonify(result)
 
 if __name__ == '__main__':
     # app.debug=True

@@ -41,7 +41,7 @@
         <i class="fas fa-fw fa-database"></i>
         <span>Graph Type</span>
       </a>
-      <div class="graph-group" id="graph">
+      <div class="radio-group" id="database-radio">
         {% for database in option_list[0].databases %}
           <div>
             <label>
@@ -64,7 +64,6 @@
 
 <!-- Display Area -->
 {% block content %}
-
   <div name="visualize" style="width: 80%; position: relative; left: 20px;top: 20px;">
     <div id="chartArea" style="height: 500px">
       <div id="title">
@@ -77,42 +76,106 @@
     </div>
   </div>
 {% endblock %}
+
+
 {% block javascript %}
   {{ super() }}
   <script src='http://www.google.com/jsapi'></script>
   <script>
-  function getGraphValue(element,name){
-    let val;
-    let graph_data=$('[name=' + name + ']:checked');
-    val = graph_data.attr('id');
-    return val;
+    $(function () {
+      checkFirstDatabaseItem();
+      display();
+    });
 
-  }
+    /**
+     * sin selector changed, dynamically change the state and database options
+     */
+    function onSinSelectChange() {
+      let options = {{ option_list|tojson }};
+      let selectedSin = $("#scen_sel").val();
+      let databaseRadios = $("#database-radio");
+      databaseRadios.empty();
+      for (let i in options) {
+        let item = options[i];
+        if (item.sin === selectedSin) {
+          // database group
+          for (let j in item.databases) {
+            let database = item.databases[j];
+            let radio = "<div>" + "<label>" +
+                "<input type='radio' name='database' id='" + database.id +
+                "' onclick=\"onDatabaseSelectChange('" + database.name + "')\"></input>" +
+                database.name +
+                "</label>" + "</div>";
+            databaseRadios.append(radio);
+          }
+          checkFirstDatabaseItem();
+          break;
+        }
+      }
+    }
 
-  function onDatabaseSelectChange(name) {
-    let options ="{{option_list|tojson}}";
+    function onDatabaseSelectChange(name) {
+      let options = {{ option_list|tojson }};
+      let selectedSin = $("#scen_sel").val();
+    }
 
+    /**
+     * click search button,
+     * submit form data by ajax
+     */
+    function display() {
+      let case_sel = $("#scen_sel").val();
+      let selectedDatabase = getRadioValByName("database-radio", 'database');
 
-  }
+      let data = {
+        case: case_sel,
+        graph: selectedDatabase,
+      };
 
-  /**
-   * return json data of display value from selector case and graph to flask
-   */
-  function display(){
-    let selcase= $("#scen_sel").val();
-    let selgraph= getGraphValue("graph","database");
-    let data ={
-      selgraph:selgraph,
-      selcase:selcase
-    };
-    let options = {
-      url:"{{ url_for('display')}}",
-      dataType:"json",
-      contentType:"application/json",
-      type:"post",
-      data: JSON.stringify(data)
-    };
-    $.ajax(options)
-  }
+      let options = {
+        url: "{{ url_for('display') }}",
+        dataType: "json",
+        contentType: "application/json",
+        type: "post",
+        data: JSON.stringify(data),
+      };
+
+      $.ajax(options)
+          .done(function (responseText) {
+            let result = responseText;
+            let options = {{ option_list|tojson }};
+            let database_name = "";
+            for (let i in options) {
+              for (let j in options[i].databases) {
+                let database = options[i].databases[j];
+                if (database.id === selectedDatabase) {
+                  database_name = database.name;
+                  break;
+                }
+              }
+            }
+          });
+    }
+
+    /**
+     * get value of the radio in the radio group
+     * @param element radio group
+     * @param name name of the radio
+     * @returns id of the radio
+     */
+    function getRadioValByName(element, name) {
+      let val;
+      let radio = $('[name=' + name + ']:checked');
+      val = radio.attr('id');
+      return val;
+    }
+
+    /**
+     * automaticalluy check the first radio button of the database list
+     */
+    function checkFirstDatabaseItem() {
+      let radios = $('[name=database]');
+      radios[0].checked = true;
+    }
   </script>
 {% endblock %}
