@@ -2,19 +2,43 @@
   tags: always
   become: yes
   pip:
-    name: ['flask']
+    name: ['flask','waitress','gunicorn']
     state: latest
 
 - name: copy webconfig
   become: yes
   template:
-  src: "../templates/web_config.py"
-  dest: "/home/ubuntu/CCC/src/Web/web_config.py"
-  owner: ubuntu
-  group: ubuntu
-  mode: 0600
+    src: "../templates/web_config.py"
+    dest: "/home/ubuntu/CCC/src/Web/web_config.py"
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: check the running process for flask app
+  become: yes
+  shell: ps -ef | grep -v grep | grep -w {{ item }} | awk '{print $2}'
+  with_items:
+    - gunicorn
+
+- name: check the running process for flask app
+  become: yes
+  shell: ps -ef | grep -v grep | grep -w {{ item }} | awk '{print $2}'
+  with_items:
+    - gunicorn
+  register: running_processes_id
+
+
+- name: kill flaskapp_running
+  become: yes
+  shell: kill "{{ item.stdout_lines[0] }}"
+  with_items: "{{ running_processes_id.results }}"
+  when: item.stdout != ""
+
+
 
 - name: launch flask web
   become: yes
-  command: "nohup python3 /home/ubuntu/CCC/src/Web/app.py"
+  command: gunicorn --chdir /home/ubuntu/CCC/src/Web/ -w 3 -b '{{ inventory_hostname }}':5000 app:app -D
 
+#sudo gunicorn --chdir /home/ubuntu/CCC/src/Web/ -w 3 -b 172.26.131.48:5000 app:app > /dev/null 2>&1 &
+# ps -ef | grep -v grep | grep -w gunicorn | awk '{print $2}'

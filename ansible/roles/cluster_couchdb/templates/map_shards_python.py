@@ -55,6 +55,7 @@ url_put_harvester='http://{}:{}@{}:{}/_node/_local/_dbs/harvester'.format("admin
 url_put_users='http://{}:{}@{}:{}/_node/_local/_dbs/_users'.format("admin", "admin","localhost","5984")
 url_put_replicator='http://{}:{}@{}:{}/_node/_local/_dbs/_replicator'.format("admin", "admin","localhost","5984")
 url_put_global_changes='http://{}:{}@{}:{}/_node/_local/_dbs/_global_changes'.format("admin", "admin","localhost","5984")
+url_put_aurin='http://{}:{}@{}:{}/_node/_local/_dbs/aurin'.format("admin", "admin","localhost","5984")
 url_database_sync='http://{}:{}@{}:{}/harvester/_sync_shards'.format("admin", "admin","localhost","5984")
 result=json.loads(requests.put(url_put_harvester,json=format).content)
 
@@ -68,6 +69,7 @@ def run_loads(format,url):
 print(run_loads(format,url_put_users))
 print(run_loads(format,url_put_replicator))
 print(run_loads(format,url_put_global_changes))
+print(run_loads(format,url_put_aurin))
 print(requests.post(url_database_sync).content)
 
 

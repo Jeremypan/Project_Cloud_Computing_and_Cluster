@@ -10,10 +10,6 @@
         {
           "name": "Pie Chart",
           "id": "Pie"
-        },
-        {
-          "name": "Map",
-          "id" : "Map"
         }
 
       ]
@@ -28,10 +24,6 @@
         {
           "name": "Pie Chart",
           "id": "Pie"
-        },
-        {
-          "name": "Map",
-          "id" : "Map"
         }
 
       ]
@@ -46,10 +38,6 @@
         {
           "name": "Pie Chart",
           "id": "Pie"
-        },
-        {
-          "name": "Map",
-          "id" : "Map"
         }
       ]
     },
@@ -63,10 +51,6 @@
         {
           "name": "Pie Chart",
           "id": "Pie"
-        },
-        {
-          "name": "Map",
-          "id" : "Map"
         }
 
       ]

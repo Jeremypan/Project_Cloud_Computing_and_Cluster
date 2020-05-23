@@ -95,9 +95,9 @@
 #  become: yes
 #  shell: 'nohup python3 /home/ubuntu/harvestor/preprocess.py > /dev/null 2>&1 &'
 
-#- name: create_view
-#  become: yes
-#  shell: 'nohup python3 {{ remote_directory }}/{{ item }} > /dev/null 2>&1 &'
-#  with_items:
-#    - createView.py
-#  when: inventory_hostname == master_node
+- name: create_view
+  become: yes
+  shell: 'nohup python3 {{ remote_directory }}/{{ item }} > /dev/null 2>&1 &'
+  with_items:
+    - createView.py
+  when: inventory_hostname == master_node

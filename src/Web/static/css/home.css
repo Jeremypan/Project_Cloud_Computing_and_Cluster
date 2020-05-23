@@ -19,7 +19,7 @@
 
 .bootstrap-tagsinput .badge {
   margin-right: 5px;
-  background-color: #36b9cc;
+  background-color: #6f42c1;
 }
 
 .sidebar select {
@@ -28,7 +28,7 @@
   margin-left: 1rem;
   width: 18rem
 }
-
+s
 .radio-group, .checkbox-group {
   margin-left: 1rem;
   width: 18rem;
@@ -52,8 +52,8 @@
   margin-left: 2px;
 }
 
-#searchBtn, #radarBtn {
+#searchBtn, #MapBtn {
   margin-left: 1rem;
-  width: 18rem;
-  color: #4e73df;
+  width: 16rem;
+  color: #6f42c1;
 }

@@ -28,13 +28,24 @@ def display():
         data=request.json
     except Exception as e:
         print(e)
+    print(data)
     result={} #
     ##################################使用data是web的输入， result是存入画图的数据#########################################
     #query 完的 数据存进 result
     result["ans"]="Draw "+data['case']+" "+ data['graph'] #Demo 删
-    print(result)
     return jsonify(result)
 
+
+@app.route('/map',methods=['POST'])
+def map():
+    try:
+        data=request.json
+    except Exception as e:
+        print(e)
+    print(data)
+    result={}
+
+    return jsonify(result)
 if __name__ == '__main__':
     # app.debug=True
     app.run(host=web_host,port=web_port)

@@ -2,37 +2,47 @@
   "_id": "_design/analysis",
   "views": {
     "total_population": {
-      "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.sa4_code16, doc.population);\n  }\n}"
+      "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.city.split(\"-\")[0], doc.population);\n  }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
     },
     "population_desnity": {
-     "map": "function (doc) {\n if(doc.type == \"population\" && doc.population){\n emit(doc.sa4_code16, doc.population_desnity);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"population\" && doc.population){\n emit(doc.city.split(\"-\")[0], doc.population_desnity);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
     },
     "access_internet": {
-     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.sa4_code16, doc.access_internet);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.access_internet);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
     },
     "avg_commuting_from_home": {
-     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.sa4_code16, doc.avg_commuting_from_home);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.avg_commuting_from_home);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
     },
     "family_num": {
-     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.sa4_code16, doc.family_num);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.family_num);\n }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
     },
     "homeless_per_10000": {
-     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.sa4_code16, doc.homeless_per_10000);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.homeless_per_10000);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
     },
     "total_employment": {
-     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.sa4_code16, doc.total_employment);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.total_employment);\n }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
     },
     "avg_rent_payment_monthly": {
-     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.sa4_code16, doc.avg_rent_payment_monthly);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.avg_rent_payment_monthly);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
     },
     "avg_morgage_payment_monthly": {
-     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.sa4_code16, doc.avg_morgage_payment_monthly);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.avg_morgage_payment_monthly);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
     },
     "number_of_available_beds": {
      "map": "function (doc) {\n if(doc.type == \"hospital\"){\n emit(doc.coordinates, doc.number_of_available_beds);\n }\n}"
     },
     "mean_income": {
-     "map": "function (doc) {\n if(doc.type == \"population\" && doc.mean_income_2011){\n emit(doc.sa4_code16, [doc.mean_income_2011, doc.mean_income_2012, doc.mean_income_2013, doc.mean_income_2014, doc.mean_income_2015]);\n }\n}"
+     "map": "function (doc) {\n if(doc.type == \"population\" && doc.mean_income_2011){\n emit(doc.city.split(\"-\")[0], doc.mean_income_2015);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
     }
   },
   "language": "javascript"
