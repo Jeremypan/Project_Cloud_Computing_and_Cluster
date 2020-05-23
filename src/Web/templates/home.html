@@ -59,6 +59,15 @@
       Display
     </button>
 
+    <hr class="sidebar-divider">
+
+    <button class="btn btn-light" id="MapBtn" onclick="map()">
+      Map
+    </button>
+
+
+
+
   </ul>
 {% endblock %}
 
@@ -85,6 +94,7 @@
     $(function () {
       checkFirstDatabaseItem();
       display();
+      map();
     });
 
     /**
@@ -113,10 +123,21 @@
         }
       }
     }
-
     function onDatabaseSelectChange(name) {
       let options = {{ option_list|tojson }};
       let selectedSin = $("#scen_sel").val();
+    }
+    function drawBarChart(result) {
+      if (Window.bar !== undefined) {
+        Window.bar.destroy();
+      }
+
+      let ctx = getCtx('barChartCanvas');
+      window.alert(ctx);
+
+    }
+    function getCtx(canvas){
+      return document.getElementById(canvas).getContext('2d');
     }
 
     /**
@@ -155,6 +176,8 @@
               }
             }
           });
+      drawBarChart(result);
+
     }
 
     /**
@@ -168,6 +191,25 @@
       let radio = $('[name=' + name + ']:checked');
       val = radio.attr('id');
       return val;
+    }
+
+    function map(){
+
+      let data = {
+        case: 'map',
+      };
+
+      let options = {
+        url: "{{ url_for('map') }}",
+        dataType: "json",
+        contentType: "application/json",
+        type: "post",
+        data: JSON.stringify(data),
+      };
+      $.ajax(options).done;
+
+
+
     }
 
     /**

@@ -16,13 +16,15 @@
 #    group: ubuntu
 #    mode: 0600
 
+
 - name: clone code to Server
   git:
+    force: yes
     repo: "https://{{github_user}}:{{github_pass}}@github.com/Jeremypan/CCC_Assignment_2.git"
     dest: "{{ workplace_directory }}"
     version: "{{ branch }}"
 
-- name: upload aurin json data to couchdb
-  become: yes
-  shell: 'nohup python3 /home/ubuntu/CCC/aurin_sa4/aurin.py'
-  when: inventory_hostname == ip_address_list[1]
+#- name: upload aurin json data to couchdb
+#  become: yes
+#  shell: 'nohup python3 /home/ubuntu/CCC/aurin_sa4/aurin.py'
+#  when: inventory_hostname == ip_address_list[1]
