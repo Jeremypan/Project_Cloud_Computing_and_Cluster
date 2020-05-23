@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request
+from web_config import web_host, web_port
 import os
 import json
 
@@ -36,4 +37,4 @@ def display():
 
 if __name__ == '__main__':
     # app.debug=True
-    app.run()
+    app.run(host=web_host,port=web_port)

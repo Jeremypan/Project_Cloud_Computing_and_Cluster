@@ -47,19 +47,20 @@ instances:
     security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance1_volumes|default([]) }}'
     volumes: 'db1'
-    fixed_address: 172.26.130.40
 
   - name: Server2
     security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance2_volumes|default([]) }}'
     volumes: 'db2'
-    fixed_address: 172.26.131.73
 
   - name: Server3
     security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
     volume_ids: '{{ instance3_volumes|default([]) }}'
     volumes: 'db3'
-    fixed_address: 172.26.131.229
+
+load_balancer:
+  - name: nginx_server
+    security_groups: ["server_security","ssh","http","CouchDB","Icmp"]
 
 #####################
 ## volumes       ##
