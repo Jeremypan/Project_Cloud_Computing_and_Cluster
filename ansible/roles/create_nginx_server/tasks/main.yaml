@@ -1,0 +1,37 @@
+- name: Create nginx instances
+  os_server:
+    name: '{{ item.name }}'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_group_key }}'
+    flavor: '{{ instance_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ item.security_groups }}'
+    network: '{{ instance_network }}'
+    reuse_ips: yes
+    auto_ip: yes
+    wait: yes
+    timeout: 600
+    state: present
+  loop: '{{ load_balancer }}'
+  register: nginx_result
+
+- debug:
+    msg: "Instance {{ item.openstack.name }} has been created. IP address is {{ item.openstack.public_v4 }}"
+  loop: '{{ nginx_result.results }}'
+  when: item.openstack is defined
+
+- name: Wait for connection
+  wait_for:
+    host: "{{ item.openstack.public_v4 }}"
+    port: 22
+    timeout: 120
+    search_regex: OpenSSH
+  loop: '{{ nginx_result.results }}'
+  when: item.openstack is defined
+
+- name: Add host
+  add_host:
+    name: '{{ item.openstack.public_v4 }}'
+    groups: Nginx
+  loop: '{{ nginx_result.results }}'
+  when: item.openstack is defined

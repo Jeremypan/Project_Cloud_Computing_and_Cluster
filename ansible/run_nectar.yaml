@@ -27,6 +27,19 @@
   roles:
     - role: harvester_deployment
     - role: git_clone_scripts
+    - role: deploy_web
 
+- hosts: localhost
+  vars_files:
+    - host_vars/vars.yaml
+  roles:
+    - role: create_nginx_server
+
+- hosts: Nginx
+  vars_files:
+    - host_vars/server_vars.yaml
+  roles:
+    - role: set_up_nginx_envrionment
+    - role: run_load_balancer
 
     
