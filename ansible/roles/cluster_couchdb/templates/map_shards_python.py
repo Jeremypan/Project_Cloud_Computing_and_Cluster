@@ -71,8 +71,8 @@ print(run_loads(format,url_put_replicator))
 print(run_loads(format,url_put_global_changes))
 try:
     print(run_loads(format,url_put_aurin))
-except Exception as(e):
-    pass
+except:
+    print("no aurin")
 print(requests.post(url_database_sync).content)
 
 
