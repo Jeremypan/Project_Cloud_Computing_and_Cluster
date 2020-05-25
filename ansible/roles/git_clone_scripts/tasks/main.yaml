@@ -24,7 +24,8 @@
     dest: "{{ workplace_directory }}"
     version: "{{ branch }}"
 
-#- name: upload aurin json data to couchdb
-#  become: yes
-#  shell: 'nohup python3 /home/ubuntu/CCC/aurin_sa4/aurin.py'
-#  when: inventory_hostname == ip_address_list[1]
+- name: upload aurin json data to couchdb/updateview
+  become: yes
+  shell: 'nohup python3 /home/ubuntu/CCC/aurin_sa4/viewCreator.py'
+  when: inventory_hostname == ip_address_list[1]
+  # upload data run aurin.py
