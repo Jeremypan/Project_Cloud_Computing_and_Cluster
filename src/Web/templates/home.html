@@ -326,8 +326,8 @@
         contentType: "application/json",
         type: "post",
         data: JSON.stringify(data),
-        success: function () {
-          window.open("http://127.0.0.1:5000/map_covid");
+        success: function (responseText) {
+          window.open(responseText);
         },
       };
       $.ajax(options).done;

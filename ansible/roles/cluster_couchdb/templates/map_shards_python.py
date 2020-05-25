@@ -69,7 +69,10 @@ def run_loads(format,url):
 print(run_loads(format,url_put_users))
 print(run_loads(format,url_put_replicator))
 print(run_loads(format,url_put_global_changes))
-print(run_loads(format,url_put_aurin))
+try:
+    print(run_loads(format,url_put_aurin))
+except Exception as(e):
+    pass
 print(requests.post(url_database_sync).content)
 
 
