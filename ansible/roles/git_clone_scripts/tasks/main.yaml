@@ -26,6 +26,6 @@
 
 - name: upload aurin json data to couchdb/updateview
   become: yes
-  shell: 'nohup python3 /home/ubuntu/CCC/aurin_sa4/viewCreator.py'
+  shell: 'nohup python3 /home/ubuntu/CCC/aurin_sa4/aurin.py'
   when: inventory_hostname == ip_address_list[1]
   # upload data run aurin.py

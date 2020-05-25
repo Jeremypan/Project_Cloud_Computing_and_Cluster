@@ -19,7 +19,6 @@ for dbname in server:
 if ("_design/analysis" in db): 
     print("The views already exist")
 else:
-    with open("harvesterview.json") as file_object:
+    with open("/home/ubuntu/harvestor/harvesterview.json") as file_object:
         db["_design/analysis"] = json.load(file_object)
-
 print("Finished creating views")
