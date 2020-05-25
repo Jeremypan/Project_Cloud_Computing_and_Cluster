@@ -59,7 +59,7 @@ def map():
         data = request.json
     except Exception as e:
         print(e)
-    result= "http://localhost:5000/map_covid"
+    result= "{{inventory_hostname}}:5000/map_covid"
     print(result)
     return jsonify(result)
 
