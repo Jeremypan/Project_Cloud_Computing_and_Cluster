@@ -1,4 +1,4 @@
-# CCC_Assignment_2\
+# CCC_Assignment_2
 COMP90024 Assignment\
 auth: authentication information of twitter api\
 dblogin: user and password of couchdb\
@@ -7,4 +7,4 @@ streamtimeline: stream then user_timeline\
 timelineThread: a helper for streamtimeline\
 createView: create required views\
 preprocess: preprocess data already existing in database\
-harvesterview: views for harvester database to be stored\
+harvesterview: views for harvester database to be stored
