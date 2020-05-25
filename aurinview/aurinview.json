@@ -1,0 +1,68 @@
+{
+  "_id": "_design/analysis",
+  "views": {
+    "total_population": {
+      "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.city.split(\"-\")[0], doc.population);\n  }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
+    },
+    "total_income": {
+      "map": "function (doc) {\n  if(doc.mean_income_2011 && doc.type == \"population\"){\n    emit(doc.city.split(\"-\")[0], doc.total_income);\n  }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
+    },
+    "sa4_population": {
+      "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.sa4_code16, doc.population);\n  }\n}"
+    },
+    "code_city": {
+      "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.sa4_code16, doc.city.split(\"-\")[0]);\n  }\n}"
+    },
+    "population_density": {
+      "map": "function (doc) {\n if(doc.type == \"population\" && doc.population){\n emit(doc.city.split(\"-\")[0], doc.population_desnity);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
+    },
+    "access_internet": {
+      "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.access_internet);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
+    },
+    "avg_commuting_from_home": {
+      "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.avg_commuting_from_home);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
+    },
+    "family_num": {
+      "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.family_num);\n }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
+    },
+    "homeless_per_10000": {
+      "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.homeless_per_10000);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
+    },
+    "total_employment": {
+      "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.total_employment);\n }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
+    },
+    "avg_rent_payment_monthly": {
+      "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.avg_rent_payment_monthly);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
+    },
+    "avg_mortgage_payment_monthly": {
+      "map": "function (doc) {\n if(doc.type == \"family\"){\n emit(doc.city.split(\"-\")[0], doc.avg_morgage_payment_monthly);\n }\n}",
+      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
+    },
+    "number_of_available_beds": {
+      "map": "function (doc) {\n if(doc.type == \"hospital\"){\n emit(doc.coordinates, doc.number_of_available_beds);\n }\n}"
+    },
+    "mean_income": {
+      "map": "function (doc) {\n if(doc.type == \"population\" && doc.mean_income_2011){\n emit(doc.city, doc.mean_income_2015);\n }\n}"
+    },
+    "population_by_city": {
+      "map": "function (doc) {\r\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\r\n  'Sunshine Coast','Geelong','Hobart','Central Coast','Wollongong']\r\n  if (doc.type == 'population') {\r\n    if (doc.city == 'Australian Capital Territory') {\r\n      emit('Canberra', doc.population);\r\n    } else {\r\n      for (var i=0; i<city.length; i++) {\r\n        if (doc.city.includes(city[i])) {\r\n          emit(doc.city, doc.population);\r\n          break;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}"
+    },
+    "income_by_city": {
+      "map": "function (doc) {\r\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\r\n  'Sunshine Coast','Geelong','Hobart','Central Coast','Wollongong']\r\n  if (doc.type == 'population' && doc.mean_income_2011) {\r\n    if (doc.city == 'Australian Capital Territory') {\r\n      emit('Canberra', doc.total_income);\r\n    } else {\r\n      for (var i=0; i<city.length; i++) {\r\n        if (doc.city.includes(city[i])) {\r\n          emit(city[i], doc.total_income);\r\n          break;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+      "reduce": "_sum"
+    },
+    "mean_income_by_city": {
+      "map": "function (doc) {\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\n  'Sunshine Coast','Geelong','Hobart','Central Coast']\n  if (doc.type == 'population' && doc.mean_income_2011) {\n    if (doc.city == 'Australian Capital Territory') {\n      emit('Canberra', doc.mean_income_2015);\n    } else {\n      for (var i=0; i<city.length; i++) {\n        if (doc.city.includes(city[i])) {\n          emit(doc.city, doc.mean_income_2015);\n          break;\n        }\n      }\n    }\n  }\n}"
+    }
+  },
+  "language": "javascript"
+}
