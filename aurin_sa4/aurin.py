@@ -81,9 +81,9 @@ def read_income(file_path):
                 db.save(output_data)
 
 
-read_population('population.json')
-read_family('family.json')
-read_hospital('hospital.json')
-read_income('income.json')
-with open("view_aurin.json") as file_object:
+read_population('/home/ubuntu/CCC/aurin_sa4/population.json')
+read_family('/home/ubuntu/CCC/aurin_sa4/family.json')
+read_hospital('/home/ubuntu/CCC/aurin_sa4/hospital.json')
+read_income('/home/ubuntu/CCC/aurin_sa4/income.json')
+with open("/home/ubuntu/CCC/aurin_sa4/view_aurin.json") as file_object:
     db["_design/analysis"] = json.load(file_object)

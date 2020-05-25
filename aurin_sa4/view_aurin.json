@@ -52,6 +52,16 @@
     },
     "mean_income": {
      "map": "function (doc) {\n if(doc.type == \"population\" && doc.mean_income_2011){\n emit(doc.sa4_code16, doc.mean_income_2015);\n }\n}"
+    },
+    "population_by_city": {
+      "map": "function (doc) {\r\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\r\n  'Sunshine Coast','Geelong','Hobart','Central Coast','Wollongong']\r\n  if (doc.type == 'population') {\r\n    if (doc.city == 'Australian Capital Territory') {\r\n      emit('Canberra', doc.population);\r\n    } else {\r\n      for (var i=0; i<city.length; i++) {\r\n        if (doc.city.includes(city[i])) {\r\n          emit(doc.city, doc.population);\r\n          break;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}"
+    },
+    "income_by_city": {
+      "map": "function (doc) {\r\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\r\n  'Sunshine Coast','Geelong','Hobart','Central Coast','Wollongong']\r\n  if (doc.type == 'population' && doc.mean_income_2011) {\r\n    if (doc.city == 'Australian Capital Territory') {\r\n      emit('Canberra', doc.total_income);\r\n    } else {\r\n      for (var i=0; i<city.length; i++) {\r\n        if (doc.city.includes(city[i])) {\r\n          emit(city[i], doc.total_income);\r\n          break;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+      "reduce": "_sum"
+    },
+    "mean_income_by_city": {
+      "map": "function (doc) {\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\n  'Sunshine Coast','Geelong','Hobart','Central Coast']\n  if (doc.type == 'population' && doc.mean_income_2011) {\n    if (doc.city == 'Australian Capital Territory') {\n      emit('Canberra', doc.mean_income_2015);\n    } else {\n      for (var i=0; i<city.length; i++) {\n        if (doc.city.includes(city[i])) {\n          emit(doc.city, doc.mean_income_2015);\n          break;\n        }\n      }\n    }\n  }\n}"
     }
   },
   "language": "javascript"
