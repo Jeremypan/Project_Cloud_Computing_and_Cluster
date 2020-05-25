@@ -1,0 +1,26 @@
+{
+  "_id": "_design/analysis",
+  "views": {
+    "covid": {
+      "map": "function (doc) {if (doc.covid == true) {emit(doc.place.bounding_box, doc.covid);}}",
+      "reduce": "_count"
+    },
+    "sentiment": {
+      "map": "function (doc) {emit(doc.place.bounding_box, doc.sentiment);}",
+      "reduce": "function (keys, values, rereduce) {return sum(values)/values.length;}"
+    },
+    "covidsentiment": {
+      "reduce": "function (keys, values, rereduce) {\n  var c=0;\n  var s=0.0;\n  values.forEach(function(obj) {\n    c+=obj.covid;\n    s+=obj.sentiment;\n  });\n  var news = s/values.length;\n  return {covid:c,sentiment:news};\n}",
+      "map": "function(doc) {\n  if (doc.covid == true) {\n    emit(doc.place.bounding_box, {covid: 1, sentiment: doc.sentiment});\n  } else {\n    emit(doc.place.bounding_box, {covid: 0, sentiment: doc.sentiment});\n  }\n}"
+    },
+    "covid_by_city": {
+      "map": "function (doc) {\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\n  'Sunshine Coast','Geelong','Hobart','Central Coast']\n  if (doc.covid == true && city.some(e => doc.place.full_name.includes(e))) {\n    emit(doc.place.full_name.split(\",\")[0],doc.covid)\n  }\n}",
+      "reduce": "_count"
+    },
+    "sentiment_by_city": {
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values)/values.length;\n}",
+      "map": "function (doc) {\n  var city = ['Sydney','Melbourne','Brisbane','Perth','Adelaide','Gold Coast','Newcastle','Canberra',\n  'Sunshine Coast','Geelong','Hobart','Central Coast']\n  if (city.some(e => doc.place.full_name.split(\",\")[0].includes(e))) {\n    emit(doc.place.full_name.split(\",\")[0],doc.sentiment)\n  }\n}"
+    }
+  },
+  "language": "javascript"
+}

@@ -5,6 +5,16 @@
       "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.city.split(\"-\")[0], doc.population);\n  }\n}",
       "reduce": "function (keys, values) {\n  return sum(values);\n}"
     },
+    "total_income": {
+      "map": "function (doc) {\n  if(doc.mean_income_2011 && doc.type == \"population\"){\n    emit(doc.city.split(\"-\")[0], doc.total_income);\n  }\n}",
+      "reduce": "function (keys, values) {\n  return sum(values);\n}"
+    },
+    "sa4_population": {
+      "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.sa4_code16, doc.population);\n  }\n}"
+    },
+    "code_city": {
+      "map": "function (doc) {\n  if(doc.population && doc.type == \"population\"){\n    emit(doc.sa4_code16, doc.city.split(\"-\")[0]);\n  }\n}"
+    },
     "population_desnity": {
      "map": "function (doc) {\n if(doc.type == \"population\" && doc.population){\n emit(doc.city.split(\"-\")[0], doc.population_desnity);\n }\n}",
       "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
@@ -41,8 +51,7 @@
      "map": "function (doc) {\n if(doc.type == \"hospital\"){\n emit(doc.coordinates, doc.number_of_available_beds);\n }\n}"
     },
     "mean_income": {
-     "map": "function (doc) {\n if(doc.type == \"population\" && doc.mean_income_2011){\n emit(doc.city.split(\"-\")[0], doc.mean_income_2015);\n }\n}",
-      "reduce": "function(keys, values, rereduce) {\n    if (rereduce) {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    } else {\n        sum = sum(values);\n        count = values.length;\n        return sum/count;\n    }\n}"
+     "map": "function (doc) {\n if(doc.type == \"population\" && doc.mean_income_2011){\n emit(doc.sa4_code16, doc.mean_income_2015);\n }\n}"
     }
   },
   "language": "javascript"

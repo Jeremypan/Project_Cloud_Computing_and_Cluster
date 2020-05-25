@@ -70,20 +70,20 @@ def read_income(file_path):
             if each_data['properties']:
                 output_data = {'type': 'population', 'city': each_data['properties']['sa4_name16'], \
                                'sa4_code16': each_data['properties']['sa4_code_2016'], \
+                               'mean_income': [each_data['properties']['mean_aud_2010_11'],each_data['properties']['mean_aud_2011_12'],each_data['properties']['mean_aud_2012_13'],each_data['properties']['mean_aud_2013_14'],each_data['properties']['mean_aud_2014_15']],
                                'mean_income_2011': each_data['properties']['mean_aud_2010_11'], \
                                'mean_income_2012': each_data['properties']['mean_aud_2011_12'], \
                                'mean_income_2013': each_data['properties']['mean_aud_2012_13'], \
                                'mean_income_2014': each_data['properties']['mean_aud_2013_14'], \
-                               'mean_income_2015': each_data['properties']['mean_aud_2014_15']
+                               'mean_income_2015': each_data['properties']['mean_aud_2014_15'],
+                               'total_income': each_data['properties']['income_aud_2014_15']
                                }
                 db.save(output_data)
 
 
-read_population('/home/ubuntu/CCC/aurin_sa4/population.json')
-read_family('/home/ubuntu/CCC/aurin_sa4/family.json')
-read_hospital('/home/ubuntu/CCC/aurin_sa4/hospital.json')
-read_income('/home/ubuntu/CCC/aurin_sa4/income.json')
-
-db = server["aurin"]
-with open("/home/ubuntu/CCC/aurin_sa4/view_aurin.json") as file_object:
+read_population('population.json')
+read_family('family.json')
+read_hospital('hospital.json')
+read_income('income.json')
+with open("view_aurin.json") as file_object:
     db["_design/analysis"] = json.load(file_object)

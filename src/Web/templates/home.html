@@ -36,23 +36,23 @@
     </li>
 
     <!-- Graph selector -->
-    <li class="nav-item active">
-      <a class="nav-link">
-        <i class="fas fa-fw fa-database"></i>
-        <span>Graph Type</span>
-      </a>
-      <div class="radio-group" id="database-radio">
-        {% for database in option_list[0].databases %}
-          <div>
-            <label>
-              <input type="radio" name="database" id="{{ database.id }}"
-                     onclick="onDatabaseSelectChange('{{ database.name }}')"/>
-              {{ database.name }}
-            </label>
-          </div>
-        {% endfor %}
-      </div>
-    </li>
+<!--    <li class="nav-item active">-->
+<!--      <a class="nav-link">-->
+<!--        <i class="fas fa-fw fa-database"></i>-->
+<!--        <span>Graph Type</span>-->
+<!--      </a>-->
+<!--      <div class="radio-group" id="database-radio">-->
+<!--        {% for database in option_list[0].databases %}-->
+<!--          <div>-->
+<!--            <label>-->
+<!--              <input type="radio" name="database" id="{{ database.id }}"-->
+<!--                     onclick="onDatabaseSelectChange('{{ database.name }}')"/>-->
+<!--              {{ database.name }}-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        {% endfor %}-->
+<!--      </div>-->
+<!--    </li>-->
 
     <!-- Button Display  -->
     <button class="btn btn-light" id="searchBtn" onclick="display()">
@@ -74,13 +74,24 @@
 <!-- Display Area -->
 {% block content %}
   <div name="visualize" style="width: 80%; position: relative; left: 20px;top: 20px;">
-    <div id="chartArea" style="height: 500px">
-      <div id="title">
-        <tab>Title</tab>
+    <div id="chartArea_1" style="height: 500px">
+      <div id="title_1">
       </div>
-      <div id="content" style="position: relative;width: 50%;height: 80%;left:30px">
-        <canvas id="barChartCanvas"
-                style="position: absolute;width: 378px; top: -40px ;height: 400px;left: 150px;display: block;"></canvas>
+      <div class="chart-container", id="content_1" style="position: absolute;width: 40%;height: 40%;left:30px">
+        <canvas id="ChartCanvas_1"
+                style="position: relative;width: 400px; top: -20px ;height: 300px;left: 75px;display: block;"></canvas>
+      </div>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <div id="chartArea_2" style="height: 500px">
+      <div id="title_2">
+
+      </div>
+      <div class="chart-container", id="content_2" style="position: absolute;width: 40%;height: 40%;left:30px">
+        <canvas id="ChartCanvas_2"
+                style="position: relative;width: 400px; top: -20px ;height: 300px;left: 75px;display: block;"></canvas>
       </div>
     </div>
   </div>
@@ -91,51 +102,170 @@
   {{ super() }}
   <script src='http://www.google.com/jsapi'></script>
   <script>
-    $(function () {
-      checkFirstDatabaseItem();
-      display();
-      map();
-    });
-
-    /**
-     * sin selector changed, dynamically change the state and database options
-     */
-    function onSinSelectChange() {
-      let options = {{ option_list|tojson }};
-      let selectedSin = $("#scen_sel").val();
-      let databaseRadios = $("#database-radio");
-      databaseRadios.empty();
-      for (let i in options) {
-        let item = options[i];
-        if (item.sin === selectedSin) {
-          // database group
-          for (let j in item.databases) {
-            let database = item.databases[j];
-            let radio = "<div>" + "<label>" +
-                "<input type='radio' name='database' id='" + database.id +
-                "' onclick=\"onDatabaseSelectChange('" + database.name + "')\"></input>" +
-                database.name +
-                "</label>" + "</div>";
-            databaseRadios.append(radio);
-          }
-          checkFirstDatabaseItem();
-          break;
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i <6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
         }
+        return color;
+    }
+
+    function drawBar(result){
+        let ctx = getCtx('ChartCanvas_2');
+        let res_data=result.data;
+        let data_array_1=[];
+        let data_array_2=[];
+        let data_array_label=[];
+        for (let i = 0; i<res_data.length; i++) {
+          data_array_1.push(res_data[i][0]);
+          data_array_2.push(res_data[i][1]);
+          data_array_label.push(res_data[i][2]);
+        }
+
+        if (Window.chart !== undefined){
+           Window.chart.destroy();
+
+
+        }
+
+        Window.chart = new Chart(ctx, {
+            type:'bar', //bar, horizontalBar,pie,line,doughnut,radar,polarArea
+            data:{
+                labels:data_array_label,
+                datasets:[{
+                    label:result.xlabel,
+                    yAxisID: 'y-axis-2',
+                    data:data_array_1,
+                    backgroundColor:'rgba(255,99,132,0.6)',
+                    borderWidth:1,
+                    borderColor:'#777',
+                    hoverBorderWidth:3,
+                    hoverBorderColor:'#000'
+                },
+                {
+                    label:result.ylabel,
+                    data:data_array_2,
+                    backgroundColor:'rgba(75,192,192,0.6)',
+                    borderWidth:1,
+                    borderColor:'#777',
+                    hoverBorderWidth:3,
+                    hoverBorderColor:'#000'
+                }]
+            },
+            options:{
+                responsive: true,
+                maintainAspectRatio: false,
+                title:{
+                    display:true,
+                    text:result.title,
+                    fontSize:25
+                },
+                legend:{
+                    position:'bottom',
+                    labels:{
+                        fontColor:'#000'
+                    }
+                },
+                // layout:{
+                //     padding:{
+                //         left:100,
+                //         right:0,
+                //         top:100,
+                //         bottom:0
+                //     }
+                // },
+                tooltips: {
+                    mode: 'index',
+                        intersect: true
+                },
+                scales: {
+                    yAxes: [{
+                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: 'left',
+                        id: 'y-axis-1',
+                    }, {
+                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: 'right',
+                        id: 'y-axis-2',
+                        gridLines: {
+                            drawOnChartArea: false
+                        }
+                    }],
+                }
+            }
+        });
+
+
+    }
+
+
+
+    function drawScatter(result){
+      let res_data=result.data;
+      let dataset_array=[];
+      for (let i =0; i<res_data.length; i++){
+          let temp = res_data[i];
+          // alert(temp);
+          dataset_array.push({
+            label:temp[2],
+            backgroundColor: getRandomColor(),
+            data:[{x:temp[0],y:temp[1]}]
+          });
       }
-    }
-    function onDatabaseSelectChange(name) {
-      let options = {{ option_list|tojson }};
-      let selectedSin = $("#scen_sel").val();
-    }
-    function drawBarChart(result) {
-      if (Window.bar !== undefined) {
+      // alert(dataset_array[0].data[0].x)
+      // // if (Window.bar !== undefined) {
+      // //   Window.bar.destroy();
+      // // }
+
+      let ctx = getCtx('ChartCanvas_1');
+      if (Window.bar !==undefined){
         Window.bar.destroy();
+
       }
-
-      let ctx = getCtx('barChartCanvas');
-      window.alert(ctx);
-
+      Window.bar = new Chart.Scatter(ctx,{
+            data: {
+              datasets:dataset_array,
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              title: {
+                display: true,
+                text: result.title,
+                fontSize: 24,
+                fontColor: 'black',
+              },
+              // layout:{
+              //       padding:{
+              //           left:100,
+              //           right:0,
+              //           top:100,
+              //           bottom:0
+              //       }
+              // },
+              scales: {
+                xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: result.xlabel
+                  }
+                }],
+                yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: result.ylabel
+                  }
+                }]
+              }
+            }
+      });
     }
+
+
+
     function getCtx(canvas){
       return document.getElementById(canvas).getContext('2d');
     }
@@ -146,11 +276,11 @@
      */
     function display() {
       let case_sel = $("#scen_sel").val();
-      let selectedDatabase = getRadioValByName("database-radio", 'database');
+      // let selectedDatabase = getRadioValByName("database-radio", 'database');
 
       let data = {
-        case: case_sel,
-        graph: selectedDatabase,
+        sel_case: case_sel,
+        // graph: selectedDatabase,
       };
 
       let options = {
@@ -162,22 +292,12 @@
       };
 
       $.ajax(options)
-          .done(function (responseText) {
-            let result = responseText;
-            let options = {{ option_list|tojson }};
-            let database_name = "";
-            for (let i in options) {
-              for (let j in options[i].databases) {
-                let database = options[i].databases[j];
-                if (database.id === selectedDatabase) {
-                  database_name = database.name;
-                  break;
-                }
-              }
-            }
+          .done(function (responseText){
+            // alert(responseText.dataset);
+            // drawPie(responseText);
+            drawScatter(responseText);
+            drawBar(responseText);
           });
-      drawBarChart(result);
-
     }
 
     /**
@@ -196,7 +316,8 @@
     function map(){
 
       let data = {
-        case: 'map',
+        sel_case: 'map',
+        url:"localhost:5000/map"
       };
 
       let options = {
@@ -205,6 +326,9 @@
         contentType: "application/json",
         type: "post",
         data: JSON.stringify(data),
+        success: function () {
+          window.open("http://127.0.0.1:5000/map_covid");
+        },
       };
       $.ajax(options).done;
 
@@ -212,12 +336,5 @@
 
     }
 
-    /**
-     * automaticalluy check the first radio button of the database list
-     */
-    function checkFirstDatabaseItem() {
-      let radios = $('[name=database]');
-      radios[0].checked = true;
-    }
   </script>
 {% endblock %}
