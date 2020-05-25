@@ -19,7 +19,7 @@ def combine(list1, list2):
 
 
 # choose server
-server = couchdb.Server('http://admin:admin@localhost:5984')
+server = couchdb.Server('http://admin:admin@172.26.129.213:5984')
 
 # choose db
 dbname1 = "harvester"
@@ -48,6 +48,8 @@ covid_list = []
 sentiment_list = tolist(view_sentiment)
 
 for i in view_population:
+    if i.value is None:
+        continue
     for j in view_income:
         if i.key == j.key and i.key != 'Hunter Valley exc Newcastle':
             pop_by_region.append({'city': i.key, 'value': i.value})
