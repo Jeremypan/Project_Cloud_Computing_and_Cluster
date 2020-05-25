@@ -54,7 +54,7 @@ def display():
 
 @app.route('/map',methods=['POST','PUT','GET'])
 def map():
-    bar()
+    # bar()
     try:
         data = request.json
     except Exception as e:
@@ -63,9 +63,9 @@ def map():
     print(result)
     return jsonify(result)
 
-@app.route('/map_covid',methods=['GET'])
-def bar():
-    return render_template("map_covid.html")
+# @app.route('/map_covid',methods=['GET'])
+# def bar():
+#     return render_template("map_covid.html")
 
 
 if __name__ == '__main__':
