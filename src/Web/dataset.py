@@ -19,7 +19,7 @@ def combine(list1, list2):
 
 
 # choose server
-server = couchdb.Server('http://admin:admin@172.26.129.213:5984')
+server = couchdb.Server('http://admin:admin@localhost:5984')
 
 # choose db
 dbname1 = "harvester"
