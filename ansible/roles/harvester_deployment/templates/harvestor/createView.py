@@ -16,23 +16,10 @@ for dbname in server:
     print(dbname)
 
 # create view
-if ("_design/analysis" in db and "covid" in db["_design/analysis"]["views"] and "sentiment" in db["_design/analysis"]["views"]):
+if ("_design/analysis" in db): 
     print("The views already exist")
 else:
-    design_doc = {
-        '_id': '_design/analysis', 
-        'views': {
-            'covid': {
-                'map': 'function (doc) {if (doc.covid == true) {emit(doc.place.bounding_box, doc.covid);}}',
-                'reduce':'_count'
-            },
-            'sentiment': {
-                'map': 'function (doc) {emit(doc.place.bounding_box, doc.sentiment);}',
-                'reduce': 'function (keys, values, rereduce) {return sum(values)/values.length;}'
-            }
-        },
-        'language':'javascript'
-    }
-    db.save(design_doc)
+    with open("harvesterview.json") as file_object:
+        db["_design/analysis"] = json.load(file_object)
 
 print("Finished creating views")

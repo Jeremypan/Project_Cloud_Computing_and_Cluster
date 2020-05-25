@@ -1,7 +1,7 @@
 {
   "option_list": [
     {
-      "Scenario": "Case 1",
+      "Scenario": "Covid VS Income",
       "databases": [
         {
           "name": "Bar Chart",
@@ -15,7 +15,7 @@
       ]
     },
     {
-      "Scenario": "Case 2",
+      "Scenario": "Sentiment VS Income",
       "databases": [
         {
           "name": "Bar Chart",
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "Scenario": "Case 3",
+      "Scenario": "Sentiment VS Covid",
       "databases": [
         {
           "name": "Bar Chart",
