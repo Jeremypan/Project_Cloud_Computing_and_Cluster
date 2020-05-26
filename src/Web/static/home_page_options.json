@@ -40,20 +40,6 @@
           "id": "Pie"
         }
       ]
-    },
-    {
-      "Scenario": "Case 4",
-      "databases": [
-        {
-          "name": "Bar Chart",
-          "id": "Bar"
-        },
-        {
-          "name": "Pie Chart",
-          "id": "Pie"
-        }
-
-      ]
     }
   ]
 }
