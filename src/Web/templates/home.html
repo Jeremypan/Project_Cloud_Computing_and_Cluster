@@ -348,40 +348,33 @@
         contentType: "application/json",
         type: "post",
         data: JSON.stringify(data),
-        success: function () {
-          if (Window.chart !==undefined) {
-            Window.chart.destroy();
-          }
-          if (Window.bar !==undefined) {
-            Window.bar.destroy();
-          }
-          $('#map-title').empty();
-          var $h3=$("<h3>Covid_Sentiment_by_regions</h3>");
-          $('#map-title').append($h3);
-
-          var data = google.visualization.arrayToDataTable([
-                  ['States', 'covid_sentiment'], ['New South Wales', 0.145],
-                    ['South Australia', 0.13],
-          ['Queensland', 0.173101378471387],
-          ['AU-TAS', 0.02],
-          ['Western Australia', 0.131715886843063],
-          ['Victoria', 0.116973268],
-          ["Northern Territory", 0.085]
-        ]);
-
+        success: function (responseText) {
+        if (Window.chart !==undefined) {
+          Window.chart.destroy();
+        }
+        if (Window.bar !==undefined) {
+          Window.bar.destroy();
+        }
+        $('#map-title').empty();
+        var $h3=$("<h3>Covid_Sentiment_by_Cities</h3>");
+        $('#map-title').append($h3);
+        let result = responseText
+        var data = google.visualization.arrayToDataTable(result);
         var options = {region:'AU',
-                       colorAxis: { minValue: 0, maxValue: 0.2, colors:['white','green']},
-                       legend: 'Covid_Sentiment_Assessment',
-                       resolution:'provinces',
-                       displayMode: 'region',
-                       sizeAxis: {minValue: 0, maxValue: 0.2, minSize: 0.01, maxSize: 0.1},
-                       keepAspectRatio: true,
-                       width: 800,
-                       height: 500,
-                       magnifyingGlass: {enable: true, zoomFactor: 7.5},
-                       domain:"IN",
-                       tooltip: {isHtml: true},
-                       legend:{textStyle: {color: 'blue', fontSize: 16}}
+                       colorAxis: {colors:['blue','red']},
+                       displayMode: 'markers',
+                       datalessRegionColor: '#faebd7',
+                       defaultColor: '#f5f5f5'
+                      //  resolution:'markers',
+                      //  legend: 'Covid_Sentiment_Assessment',
+                      //  sizeAxis: {minValue: 0, maxValue: 0.2, minSize: 0.01, maxSize: 0.1},
+                      //  keepAspectRatio: true,
+                      //  width: 800,
+                      //  height: 500,
+                      //  magnifyingGlass: {enable: true, zoomFactor: 7.5},
+                      //  domain:"IN",
+                      //  tooltip: {isHtml: true},
+                      //  legend:{textStyle: {color: 'blue', fontSize: 16}}
         };
 
         Window.geo_chart = new google.visualization.GeoChart(document.getElementById('map'));
