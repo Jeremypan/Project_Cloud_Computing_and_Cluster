@@ -1,8 +1,5 @@
 # CCC_Assignment_2
-COMP90024 Assignment
-
-auth: authentication information of twitter api
-dblogin: user and password of couchdb
-locationsearch: search tweets by place_id
-streamtimeline: stream then user_timeline
-timelineThread: a helper for streamtimeline
+COMP90024 Assignment Team 61 Semester 1 2020
+hjpan@student.unimelb.edu.au  Hangyu Pan
+yaoyic@student.unimelb.edu.au  Yaoyi Chen
+xinzhel@student.unimelb.edu.au  Xinzhe Li
