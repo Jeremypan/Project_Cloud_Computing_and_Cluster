@@ -6,7 +6,7 @@ instance_network: qh2-uom-internal
 instance_group_key: GroupKey
 instance_image: 45225edb-66d8-4fd0-bf41-132a31a18166
 instance_flavor: uom.mse.2c9g
-working_dicrectory: /home/ccc
+working_dicrectory: /home/ubuntu/CCC
 
 
 #####################

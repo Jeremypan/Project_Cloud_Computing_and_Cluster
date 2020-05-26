@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request,redirect,url_for
 from web_config import web_host, web_port
 import os
 import json
-from dataset import tolist,combine,covid_list,income_list,sentiment_list
+from dataset import tolist,combine,covid_list,income_list,sentiment_list,map_col
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 APP_STATIC = os.path.join(APP_ROOT, 'static')
@@ -59,7 +59,7 @@ def map():
         data = request.json
     except Exception as e:
         print(e)
-    result= "http://localhost:5000/map_covid"
+    result=map_col
     print(result)
     return jsonify(result)
 
