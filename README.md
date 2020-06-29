@@ -7,8 +7,9 @@ jxj1@student.unimelb.edu.au Xiaowen Jin
 
 Topic: Covid-19_Twitter_Analysis
 
-Deployment: Ansible\
+Deployment: Ansible; Openstack; Nectar\
 Database: CouchDB (3 node cluster)\
 Frontend:Boostrap\
-Backend:Flask, Nginx, Gunicorn\
+Backend:Flask; Nginx; Gunicorn\
 Data Source: Twitter; Aurin
+
