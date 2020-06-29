@@ -5,7 +5,7 @@ yixqin@student.unimelb.edu.au  Yixuan Qin\
 jxj1@student.unimelb.edu.au Xiaowen Jin
 
 
-Topic: Covid-19_Twitter_Analysis\
+Topic: Covid-19_Twitter_Analysis
 
 Deployment: Ansible\
 Database: CouchDB (3 node cluster)\
